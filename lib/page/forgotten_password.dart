@@ -1,5 +1,4 @@
 import 'package:app/constants.dart';
-import 'package:app/page/register.dart';
 import 'package:flutter/material.dart';
 
 class ForgottenPasswordPage extends StatefulWidget {
@@ -10,6 +9,8 @@ class ForgottenPasswordPage extends StatefulWidget {
 }
 
 class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
+  final __forgottenPasswordFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -24,11 +25,12 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
             borderRadius: BorderRadius.circular(25.0),
             child: Container(
                 width: screenWidth * 0.75,
-                height: screenHeight * 0.45,
                 color: BunkieColors.bright,
                 padding: const EdgeInsets.all(25),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Form(
+                  key: __forgottenPasswordFormKey,
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Reset your\npassword",
                         textAlign: TextAlign.center,
@@ -38,6 +40,13 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                       height: screenHeight * 0.05,
                     ),
                     TextFormField(
+                      validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter your email.";
+                              } else {
+                                return null;
+                              }
+                            },
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: BunkieColors.light,
@@ -46,8 +55,17 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                             border: UnderlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
+                    SizedBox(
+                      height: screenHeight * 0.0125,
+                    ),
                     TextFormField(
-                        obscureText: true,
+                      validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter your username.";
+                              } else {
+                                return null;
+                              }
+                            },
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: BunkieColors.light,
@@ -57,13 +75,17 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
                     SizedBox(
-                      height: screenHeight * 0.025,
+                      height: screenHeight * 0.05,
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25.0),
                       child: ElevatedButton(
-                          onPressed:
-                              null, // TO DO : Tries to Log in, otherwise prints error
+                          onPressed: () {
+                                if (__forgottenPasswordFormKey.currentState!.validate()) {
+                                  // TO DO : if form is valid, talk to backend
+                                  print("Talking to backend about Forgotten Password");
+                                }
+                              }, // TO DO : Tries to Confirm action, otherwise prints error
                           style: ButtonStyle(
                               padding: MaterialStateProperty.all(
                                   const EdgeInsets.only(
@@ -79,15 +101,10 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                               textScaleFactor: BunkieText.medium)),
                     )
                   ],
-                )),
+                ))),
           ),
         ],
       )),
     );
-  }
-
-  void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 }
