@@ -1,16 +1,15 @@
 import 'package:app/constants.dart';
-import 'package:app/page/forgotten_password.dart';
 import 'package:app/page/register.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgottenPasswordPage extends StatefulWidget {
+  const ForgottenPasswordPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ForgottenPasswordPageState createState() => _ForgottenPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -25,13 +24,13 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(25.0),
             child: Container(
                 width: screenWidth * 0.75,
-                height: screenHeight * 0.5,
+                height: screenHeight * 0.45,
                 color: BunkieColors.bright,
                 padding: const EdgeInsets.all(25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Login to your\naccount",
+                    const Text("Reset your\npassword",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: BunkieColors.light),
                         textScaleFactor: BunkieText.large),
@@ -42,32 +41,21 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: BunkieColors.light,
-                            prefixIcon: Icon(Icons.person),
-                            labelText: "Username",
+                            prefixIcon: Icon(Icons.email),
+                            labelText: "Email",
                             border: UnderlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
-                    SizedBox(
-                      height: screenHeight * 0.0125,
-                    ),
                     TextFormField(
                         obscureText: true,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: BunkieColors.light,
-                            prefixIcon: Icon(Icons.lock),
-                            labelText: "Password",
+                            prefixIcon: Icon(Icons.person),
+                            labelText: "Username",
                             border: UnderlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
-                    TextButton(
-                      onPressed:
-                          () => {_navigateToForgottenPasswordPage(context)}, // TO DO : Navigates to Forgotten Password Page
-                      child: const Text("Forgotten Password?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: BunkieColors.dark),
-                          textScaleFactor: BunkieText.medium),
-                    ),
                     SizedBox(
                       height: screenHeight * 0.025,
                     ),
@@ -85,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                                       left: 40)),
                               backgroundColor:
                                   MaterialStateProperty.all(BunkieColors.dark)),
-                          child: const Text("Log In",
+                          child: const Text("Reset",
                               textAlign: TextAlign.center,
                               style: TextStyle(color: BunkieColors.light),
                               textScaleFactor: BunkieText.medium)),
@@ -93,30 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 )),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Don't you have any accounts?",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: BunkieColors.slate),
-                textScaleFactor: BunkieText.medium),
-            TextButton(
-              onPressed: () => {_navigateToRegisterPage(context)},
-              child: const Text("Register",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: BunkieColors.bright),
-                  textScaleFactor: BunkieText.medium),
-            ),
-          ])
         ],
       )),
     );
   }
 
-  void _navigateToForgottenPasswordPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ForgottenPasswordPage()));
-  }
-
-  void _navigateToRegisterPage(BuildContext context) {
+  void _navigateToNextScreen(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RegisterPage()));
   }
