@@ -1,17 +1,15 @@
 import 'package:app/constants.dart';
-import 'package:app/page/forgotten_password.dart';
-import 'package:app/page/register.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _loginFormKey = GlobalKey<FormState>();
+class _RegisterPageState extends State<RegisterPage> {
+  final _registerFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +28,11 @@ class _LoginPageState extends State<LoginPage> {
                 color: BunkieColors.bright,
                 padding: const EdgeInsets.all(25),
                 child: Form(
-                    key: _loginFormKey,
+                    key: _registerFormKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Login to your\naccount",
+                        const Text("Join to bunkie,\nfind flatmates",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: BunkieColors.light),
                             textScaleFactor: BunkieText.large),
@@ -44,7 +42,26 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Please enter your username.";
+                                return "Please enter your email.";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: BunkieColors.light,
+                                prefixIcon: Icon(Icons.email),
+                                labelText: "Email",
+                                border: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(12.5))))),
+                        SizedBox(
+                          height: screenHeight * 0.0125,
+                        ),
+                        TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter a username.";
                               } else {
                                 return null;
                               }
@@ -63,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Please enter your password.";
+                                return "Please enter a password.";
                               } else {
                                 return null;
                               }
@@ -77,25 +94,36 @@ class _LoginPageState extends State<LoginPage> {
                                 border: UnderlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(12.5))))),
-                        TextButton(
-                          onPressed: () => {
-                            _navigateToForgottenPasswordPage(context)
-                          }, // TO DO : Navigates to Forgotten Password Page
-                          child: const Text("Forgotten Password?",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: BunkieColors.dark),
-                              textScaleFactor: BunkieText.medium),
-                        ),
                         SizedBox(
-                          height: screenHeight * 0.025,
+                          height: screenHeight * 0.0125,
+                        ),
+                        TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter the password again.";
+                              } else {
+                                return null;
+                              }
+                            },
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: BunkieColors.light,
+                                prefixIcon: Icon(Icons.lock),
+                                labelText: "Password Confirmation",
+                                border: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(12.5))))),
+                        SizedBox(
+                          height: screenHeight * 0.05,
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(25.0),
                           child: ElevatedButton(
                               onPressed: () {
-                                if (_loginFormKey.currentState!.validate()) {
+                                if (_registerFormKey.currentState!.validate()) {
                                   // TO DO : if form is valid, talk to backend
-                                  print("Talking to backend about Login");
+                                  print("Talking to backend about Register");
                                 }
                               },
                               style: ButtonStyle(
@@ -107,39 +135,16 @@ class _LoginPageState extends State<LoginPage> {
                                           left: 40)),
                                   backgroundColor: MaterialStateProperty.all(
                                       BunkieColors.dark)),
-                              child: const Text("Log In",
+                              child: const Text("Register",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: BunkieColors.light),
                                   textScaleFactor: BunkieText.medium)),
                         )
                       ],
                     ))),
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Don't you have any accounts?",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: BunkieColors.slate),
-                textScaleFactor: BunkieText.medium),
-            TextButton(
-              onPressed: () => {_navigateToRegisterPage(context)},
-              child: const Text("Register",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: BunkieColors.bright),
-                  textScaleFactor: BunkieText.medium),
-            ),
-          ])
+          )
         ],
       )),
     );
-  }
-
-  void _navigateToForgottenPasswordPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ForgottenPasswordPage()));
-  }
-
-  void _navigateToRegisterPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 }
