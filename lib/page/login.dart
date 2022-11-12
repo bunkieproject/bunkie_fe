@@ -1,8 +1,9 @@
 import 'package:app/constants.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(25.0),
             child: Container(
                 width: screenWidth * 0.65,
-                height: screenHeight * 0.50,
+                height: screenHeight * 0.5,
                 color: BunkieColors.bright,
                 padding: const EdgeInsets.all(25.0),
                 child: Column(
@@ -45,9 +46,10 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
                     SizedBox(
-                      height: screenHeight * 0.025,
+                      height: screenHeight * 0.0125,
                     ),
                     TextFormField(
+                        obscureText: true,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: BunkieColors.light,
@@ -57,19 +59,21 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.5))))),
                     const TextButton(
-                      onPressed: null,
+                      onPressed:
+                          null, // TO DO : Navigates to Forgotten Password Page
                       child: Text("Forgotten Password?",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: BunkieColors.dark),
                           textScaleFactor: BunkieText.medium),
                     ),
                     SizedBox(
-                      height: screenHeight * 0.05,
+                      height: screenHeight * 0.025,
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25.0),
                       child: ElevatedButton(
-                          onPressed: null,
+                          onPressed:
+                              null, // TO DO : Tries to Log in, otherwise prints error
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(BunkieColors.dark)),
@@ -80,7 +84,23 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 )),
-          )
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text("Don't you have any accounts?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: BunkieColors.slate),
+                    textScaleFactor: BunkieText.medium),
+                TextButton(
+                  onPressed:
+                      null, // TO DO : Navigates to Register Page
+                  child: Text("Register",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: BunkieColors.bright),
+                      textScaleFactor: BunkieText.medium),
+                ),
+              ])
         ],
       )),
     );
