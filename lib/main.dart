@@ -1,3 +1,4 @@
+import 'package:app/page/main.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app/page/login.dart';
@@ -14,7 +15,7 @@ class BunkieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'bunkie',
-      home: LoginPage()
+      home: MainPage()
     );
   }
 }
