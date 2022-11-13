@@ -1,6 +1,6 @@
 import "package:app/constants.dart";
-import 'package:app/page/main.dart';
 import "package:flutter/material.dart";
+import '../page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
   @override

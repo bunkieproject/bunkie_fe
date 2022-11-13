@@ -1,7 +1,7 @@
 import 'package:app/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../widget/sidebar.dart';
+import '../../widget/sidebar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
