@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           true,
                                           "Password (Again)",
                                           Icons.person,
-                                          _passwordFormValidator),
+                                          _passwordConfirmationFormValidator),
                                     ],
                                   )),
                               SizedBox(height: screenHeight * 0.05),
@@ -112,6 +112,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   String? _passwordFormValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please enter your password";
+    } else {
+      return null;
+    }
+  }
+
+  String? _passwordConfirmationFormValidator(String? value) {
     if (value!.isEmpty) {
       return "Please enter your password";
     } else {

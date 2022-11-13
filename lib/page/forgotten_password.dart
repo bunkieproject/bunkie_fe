@@ -99,7 +99,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   void _forgottenPasswordAction() {
     if (_loginFormKey.currentState!.validate()) {
       // TO DO : if form is valid, talk to backend
-      print("Talking to backend about Register");
+      print("Talking to backend about Forgotten Password");
     }
   }
 }

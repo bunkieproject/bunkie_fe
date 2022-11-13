@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
   void _loginAction() {
     if (_loginFormKey.currentState!.validate()) {
       // TO DO : if form is valid, talk to backend
-      print("Talking to backend about Register");
+      print("Talking to backend about Login");
     }
   }
 }
