@@ -10,7 +10,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _loginFormKey = GlobalKey<FormState>();
+  final _registerFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   BunkieColors.light),
                               SizedBox(height: screenHeight * 0.05),
                               Form(
-                                  key: _loginFormKey,
+                                  key: _registerFormKey,
                                   child: Column(
                                     // Form : Email | Username | Password | Password Confirmation
                                     children: [
@@ -128,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _registerAction() {
-    if (_loginFormKey.currentState!.validate()) {
+    if (_registerFormKey.currentState!.validate()) {
       // TO DO : if form is valid, talk to backend
       print("Talking to backend about Register");
     }

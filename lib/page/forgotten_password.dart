@@ -10,7 +10,7 @@ class ForgottenPasswordPage extends StatefulWidget {
 }
 
 class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
-  final _loginFormKey = GlobalKey<FormState>();
+  final _forgottenPasswordFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                                   "Reset your\npassword", BunkieColors.light),
                               SizedBox(height: screenHeight * 0.05),
                               Form(
-                                  key: _loginFormKey,
+                                  key: _forgottenPasswordFormKey,
                                   child: Column(
                                     // Form : Email | Username
                                     children: [
@@ -97,7 +97,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   }
 
   void _forgottenPasswordAction() {
-    if (_loginFormKey.currentState!.validate()) {
+    if (_forgottenPasswordFormKey.currentState!.validate()) {
       // TO DO : if form is valid, talk to backend
       print("Talking to backend about Forgotten Password");
     }
