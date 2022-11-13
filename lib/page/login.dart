@@ -1,6 +1,7 @@
 import 'package:app/constants.dart';
 import 'package:app/page/forgotten_password.dart';
 import 'package:app/page/register.dart';
+import 'package:app/widget/form.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,119 +19,111 @@ class _LoginPageState extends State<LoginPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: BunkieColors.light,
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(25.0),
-            child: Container(
+        backgroundColor: BunkieColors.light,
+        body: Center(
+            child: Wrap(
+          alignment: WrapAlignment.center,
+          // Login Page:  Login Form | Register Message
+          children: [
+            SizedBox(
                 width: screenWidth * 0.75,
-                color: BunkieColors.bright,
-                padding: const EdgeInsets.all(25),
-                child: Form(
-                    key: _loginFormKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Login to your\naccount",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: BunkieColors.light),
-                            textScaleFactor: BunkieText.large),
-                        SizedBox(
-                          height: screenHeight * 0.05,
-                        ),
-                        TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your username.";
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: BunkieColors.light,
-                                prefixIcon: Icon(Icons.person),
-                                labelText: "Username",
-                                border: UnderlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(12.5))))),
-                        SizedBox(
-                          height: screenHeight * 0.0125,
-                        ),
-                        TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your password.";
-                              } else {
-                                return null;
-                              }
-                            },
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: BunkieColors.light,
-                                prefixIcon: Icon(Icons.lock),
-                                labelText: "Password",
-                                border: UnderlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(12.5))))),
-                        TextButton(
-                          onPressed: () => {
-                            _navigateToForgottenPasswordPage(context)
-                          }, // TO DO : Navigates to Forgotten Password Page
-                          child: const Text("Forgotten Password?",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: BunkieColors.dark),
-                              textScaleFactor: BunkieText.medium),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.025,
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25.0),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (_loginFormKey.currentState!.validate()) {
-                                  // TO DO : if form is valid, talk to backend
-                                  print("Talking to backend about Login");
-                                }
-                              },
-                              style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                      const EdgeInsets.only(
-                                          top: 20,
-                                          right: 40,
-                                          bottom: 20,
-                                          left: 40)),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      BunkieColors.dark)),
-                              child: const Text("Log In",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: BunkieColors.light),
-                                  textScaleFactor: BunkieText.medium)),
-                        )
-                      ],
-                    ))),
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Don't you have any accounts?",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: BunkieColors.slate),
-                textScaleFactor: BunkieText.medium),
-            TextButton(
-              onPressed: () => {_navigateToRegisterPage(context)},
-              child: const Text("Register",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: BunkieColors.bright),
-                  textScaleFactor: BunkieText.medium),
-            ),
-          ])
-        ],
-      )),
-    );
+                height: screenHeight * 0.55,
+                child: SingleChildScrollView(
+                  child: Card(
+                      color: BunkieColors.bright,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0)),
+                      child: Container(
+                        padding: const EdgeInsets.all(25.0),
+                        child:
+                            Column(mainAxisAlignment: MainAxisAlignment.center,
+                                // Login Form: Message | Form | Button
+                                children: [
+                              // Message
+                              BunkieFormWidgets.getFormMessage(
+                                  "Login to your\naccount", BunkieColors.light),
+                              SizedBox(height: screenHeight * 0.05),
+                              Form(
+                                  key: _loginFormKey,
+                                  child: Column(
+                                    // Form : Username | Password
+                                    children: [
+                                      // Username
+                                      BunkieFormWidgets.getTextFormField(
+                                          false,
+                                          "Username",
+                                          Icons.person,
+                                          _usernameFormValidator),
+                                      SizedBox(height: screenHeight * 0.0125),
+                                      // Password
+                                      BunkieFormWidgets.getTextFormField(
+                                          true,
+                                          "Password",
+                                          Icons.person,
+                                          _passwordFormValidator),
+                                      TextButton(
+                                          onPressed: () => {
+                                                _navigateToForgottenPasswordPage(
+                                                    context)
+                                              },
+                                          child: const Text(
+                                            "Forgotten password?",
+                                            style: TextStyle(
+                                                color: BunkieColors.dark),
+                                          ))
+                                    ],
+                                  )),
+                              SizedBox(height: screenHeight * 0.05),
+                              // Button
+                              BunkieFormWidgets.getSubmitButton(
+                                _loginAction,
+                                screenWidth * 0.3,
+                                screenHeight * 0.055,
+                                BunkieColors.dark,
+                                "Login",
+                                BunkieColors.light,
+                              )
+                            ]),
+                      )),
+                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // Register Message
+              children: [
+                const Text("Don't you have any accounts?"),
+                TextButton(
+                    onPressed: () => {_navigateToRegisterPage(context)},
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(color: BunkieColors.bright),
+                    ))
+              ],
+            )
+          ],
+        )));
+  }
+
+  String? _usernameFormValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please enter your username";
+    } else {
+      return null;
+    }
+  }
+
+  String? _passwordFormValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please enter your password";
+    } else {
+      return null;
+    }
+  }
+
+  void _loginAction() {
+    if (_loginFormKey.currentState!.validate()) {
+      // TO DO : if form is valid, talk to backend
+      print("Talking to backend about Register");
+    }
   }
 
   void _navigateToForgottenPasswordPage(BuildContext context) {
