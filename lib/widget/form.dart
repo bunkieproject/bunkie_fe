@@ -14,7 +14,7 @@ class BunkieFormWidgets {
   static TextFormField getTextFormField(bool isObscure, String? labelText,
       IconData icon, String? Function(String?)? validator) {
     return TextFormField(
-        obscureText: true,
+        obscureText: isObscure,
         decoration: InputDecoration(
             filled: true,
             fillColor: BunkieColors.light,
