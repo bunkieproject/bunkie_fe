@@ -1,73 +1,54 @@
-import 'package:app/page/login.dart';
-import 'package:flutter/material.dart';
+import "package:app/constants.dart";
+import 'package:app/page/main.dart';
+import "package:flutter/material.dart";
 
-
-class SideBarNavigationWidget extends StatelessWidget {
-  final padding = EdgeInsets.symmetric(horizontal: 20);
+class BunkieSideBarNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final name = 'Sarah Abs';
-    final email = 'sarah@abs.com';
-    final urlImage =
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
-
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Drawer(
+      width: screenWidth * 0.6,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.horizontal(right: Radius.circular(25.0))),
       child: Material(
-        color: Color.fromRGBO(50, 75, 205, 1),
+        color: BunkieColors.slate,
+        shape: const RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.horizontal(right: Radius.circular(25.0))),
         child: ListView(
           children: <Widget>[
-            buildHeader(
-              urlImage: urlImage,
-              name: name,
-              email: email,
-              onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              )),
-            ),
             Container(
-              padding: padding,
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  buildSearchField(),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    text: 'People',
-                    icon: Icons.people,
-                    onClicked: () => selectedItem(context, 0),
+                  _buildMenuItem(
+                    text: "Main Page",
+                    icon: Icons.home,
+                    onClicked: () => _navigateTo(context, 0),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Favourites',
-                    icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 1),
+                  const Divider(color: BunkieColors.light),
+                  SizedBox(height: screenHeight * 0.025),
+                  _buildMenuItem(
+                    text: "Profile",
+                    icon: Icons.person,
+                    onClicked: () => _navigateTo(context, 1),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Workflow',
-                    icon: Icons.workspaces_outline,
-                    onClicked: () => selectedItem(context, 2),
+                  const Divider(color: BunkieColors.light),
+                  SizedBox(height: screenHeight * 0.025),
+                  _buildMenuItem(
+                    text: "Messages",
+                    icon: Icons.email,
+                    onClicked: () => _navigateTo(context, 2),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Updates',
-                    icon: Icons.update,
-                    onClicked: () => selectedItem(context, 3),
+                  const Divider(color: BunkieColors.light),
+                  SizedBox(height: screenHeight * 0.025),
+                  _buildMenuItem(
+                    text: "Settings",
+                    icon: Icons.settings,
+                    onClicked: () => _navigateTo(context, 3),
                   ),
-                  const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    text: 'Plugins',
-                    icon: Icons.account_tree_outlined,
-                    onClicked: () => selectedItem(context, 4),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
+                  const Divider(color: BunkieColors.light)
                 ],
               ),
             ),
@@ -77,97 +58,33 @@ class SideBarNavigationWidget extends StatelessWidget {
     );
   }
 
-  Widget buildHeader({
-    required String urlImage,
-    required String name,
-    required String email,
-    required VoidCallback onClicked,
-  }) =>
-      InkWell(
-        onTap: onClicked,
-        child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
-          child: Row(
-            children: [
-              CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    email,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ],
-              ),
-              Spacer(),
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.add_comment_outlined, color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      );
-
-  Widget buildSearchField() {
-    final color = Colors.white;
-
-    return TextField(
-      style: TextStyle(color: color),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        hintText: 'Search',
-        hintStyle: TextStyle(color: color),
-        prefixIcon: Icon(Icons.search, color: color),
-        filled: true,
-        fillColor: Colors.white12,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-      ),
-    );
-  }
-
-  Widget buildMenuItem({
+  Widget _buildMenuItem({
     required String text,
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.white;
-    final hoverColor = Colors.white70;
+    final color = BunkieColors.light;
 
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
-      hoverColor: hoverColor,
-      onTap: onClicked,
+    return Row(
+      children: [
+        Icon(icon, color: color),
+        TextButton(
+            onPressed: onClicked,
+            child: Text(
+              text,
+              style: TextStyle(color: color),
+            ))
+      ],
     );
   }
 
-  void selectedItem(BuildContext context, int index) {
+  void _navigateTo(BuildContext context, int index) {
     Navigator.of(context).pop();
 
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LoginPage(),
+          builder: (context) => const MainPage(),
         ));
         break;
     }
