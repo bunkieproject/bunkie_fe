@@ -119,13 +119,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _loginAction() {
-    if (_loginFormKey.currentState!.validate()) {
-      // TO DO : if form is valid, talk to backend
-      print("Talking to backend about Register");
-    }
-  }
-
   void _navigateToForgottenPasswordPage(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ForgottenPasswordPage()));
@@ -134,5 +127,12 @@ class _LoginPageState extends State<LoginPage> {
   void _navigateToRegisterPage(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RegisterPage()));
+  }
+
+  void _loginAction() {
+    if (_loginFormKey.currentState!.validate()) {
+      // TO DO : if form is valid, talk to backend
+      print("Talking to backend about Register");
+    }
   }
 }
