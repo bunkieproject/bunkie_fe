@@ -1,3 +1,4 @@
+import 'package:app/page/profile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app/page/login.dart';
@@ -12,9 +13,6 @@ class BunkieApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'bunkie',
-      home: LoginPage()
-    );
+    return MaterialApp(title: 'bunkie', home: ProfilePage());
   }
 }
