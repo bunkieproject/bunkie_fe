@@ -1,6 +1,6 @@
 import "package:app/constants.dart";
 import "package:flutter/material.dart";
-import '../page/main/main.dart';
+import 'package:app/page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
   @override
@@ -87,6 +87,8 @@ class BunkieSideBarNavigation extends StatelessWidget {
           builder: (context) => const MainPage(),
         ));
         break;
+      
+      // TODO: navigate to other pages
     }
   }
 }

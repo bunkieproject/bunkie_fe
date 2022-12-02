@@ -1,7 +1,8 @@
 import 'package:app/constants.dart';
+import 'package:app/page/main/house_search.dart';
+import 'package:app/page/main/roommate_search.dart';
+import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
-
-import '../../widget/sidebar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,7 +12,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
                     borderRadius: BorderRadius.circular(12.5)),
                 color: BunkieColors.bright,
                 child: TextButton(
-                    onPressed: () => {},
+                    onPressed: () => {_navigateToHouseSearchPage(context)},
                     child: const Text(
                       "Search Home",
                       textAlign: TextAlign.center,
@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
                     borderRadius: BorderRadius.circular(12.5)),
                 color: BunkieColors.bright,
                 child: TextButton(
-                    onPressed: () => {},
+                    onPressed: () => {_navigateToRoommateSearchPage(context)},
                     child: const Text(
                       "Search Bunkie",
                       textAlign: TextAlign.center,
@@ -67,15 +67,13 @@ class _MainPageState extends State<MainPage> {
         )));
   }
 
-  /**
   void _navigateToHouseSearchPage(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => HouseSearchPage()));
   }
 
-  void _navigateToBunkieSearchPage(BuildContext context) {
+  void _navigateToRoommateSearchPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => BunkieSearchPage()));
+        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage()));
   }
-   */
 }
