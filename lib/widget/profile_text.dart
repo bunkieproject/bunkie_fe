@@ -23,7 +23,7 @@ class BunkieProfilePageWidgets {
           Text(value,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: BunkieColors.slate,
+                color: BunkieColors.bright,
               ),
               textScaleFactor: BunkieText.medium),
         ],
