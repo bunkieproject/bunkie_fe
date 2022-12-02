@@ -127,7 +127,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           BunkieColors.light,
                         )
                       ],
-                    )
+                    ),
+                    Column(
+                      children: [
+                        Text("haha"),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -183,6 +188,29 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Widget getHouseAd(
+    void Function()? onPressed,
+    double width,
+    double height,
+    Color backgroundColor,
+    String text1,
+    String text2,
+    Color textColor,
+  ) {
+    return Container(
+        height: height,
+        // ignore: prefer_const_constructors
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          color: BunkieColors.transparentSlate,
+        ),
+        child: Container(
+          child: Column(
+            children: [Text("haha")],
+          ),
+        ));
   }
 }
 
