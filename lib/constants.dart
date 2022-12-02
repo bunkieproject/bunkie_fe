@@ -6,6 +6,7 @@ class BunkieColors {
   static const Color solid = Color(0xFF0015D6);
   static const Color bright = Color(0xFF0989FB);
   static const Color slate = Color(0xFF18336B);
+  static const Color greenygreen = Color(0XFF87EE7F);
 }
 
 class BunkieText {

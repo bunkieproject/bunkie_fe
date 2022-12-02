@@ -1,6 +1,6 @@
+import 'package:app/page/authentication/login.dart';
+import 'package:app/page/main/main.dart';
 import 'package:flutter/material.dart';
-
-import 'package:app/page/login.dart';
 
 void main() {
   runApp(const BunkieApp());
