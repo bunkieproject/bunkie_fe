@@ -1,4 +1,5 @@
 import 'package:app/constants.dart';
+import 'package:app/widget/form.dart';
 import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class _HouseSearchPage extends State<HouseSearchPage> {
             children: [
               BunkieSearchPageWidgets.getHeader("House Search"),
               SizedBox(height: screenHeight * 0.00625),
-              BunkieSearchPageWidgets.getPreferencesButton(screenWidth, "Click to choose your preferences", null),
+              BunkieSearchPageWidgets.getPreferencesButton(
+                  screenWidth, "Click to choose your preferences", () {}),
               SizedBox(height: screenHeight * 0.00625),
               getHouseAds()
             ],
@@ -42,6 +44,4 @@ class _HouseSearchPage extends State<HouseSearchPage> {
     // TODO: get house ads from back-end
     return Column();
   }
-
-  // TODO: function to open pop-up
 }

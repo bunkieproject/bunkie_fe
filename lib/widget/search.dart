@@ -8,7 +8,8 @@ class BunkieSearchPageWidgets {
         style: const TextStyle(color: BunkieColors.dark));
   }
 
-  static SizedBox getPreferencesButton(double width, String text, Function()? popUpFunction) {
+  static SizedBox getPreferencesButton(
+      double width, String text, Function()? popUpFunction) {
     return SizedBox(
         width: width,
         child: ElevatedButton(
