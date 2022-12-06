@@ -11,6 +11,8 @@ class RoommateSearchPage extends StatefulWidget {
 }
 
 class _RoommateSearchPage extends State<RoommateSearchPage> {
+  final _preferencesFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -30,7 +32,11 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
             children: [
               BunkieSearchPageWidgets.getHeader("Bunkie Search"),
               SizedBox(height: screenHeight * 0.00625),
-              BunkieSearchPageWidgets.getPreferencesButton(screenWidth, "Click to choose your preferences", null),
+              BunkieSearchPageWidgets.getPreferencesButton(
+                  screenWidth, "Click to choose your preferences", () {
+                BunkieSearchPageWidgets.getPreferencesPopUp(_preferencesFormKey,
+                    context, screenWidth * 0.9, screenHeight * 0.85);
+              }),
               SizedBox(height: screenHeight * 0.00625),
               getRoommateAds()
             ],
@@ -39,9 +45,6 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
   }
 
   Column getRoommateAds() {
-    // TODO: get house ads from back-end
     return Column();
   }
-
-  // TODO: function to open pop-up
 }
