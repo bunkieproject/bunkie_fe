@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               SizedBox(height: screenHeight * 0.05),
                               // Button
                               BunkieFormWidgets.getSubmitButton(
-                                () {BunkieAuthAPI.loginAction(context, _registerFormKey, _registerFormData);},
+                                () {BunkieAuthAPI.registerAction(context, _registerFormKey, _registerFormData);},
                                 screenWidth * 0.3,
                                 screenHeight * 0.055,
                                 BunkieColors.dark,

@@ -10,13 +10,14 @@ class BunkieAuthAPI {
       try {
         print(json.jsonEncode(formData));
         var response = await http.post(
-          Uri.parse(BunkieAddress.address),
+          Uri.parse(BunkieAddress.getRoute("users/login")),
           headers: <String, String> {'Content-Type': 'application/json; charset=UTF-8',},
           body: json.jsonEncode(formData),
         );
         if (response.statusCode == 200) {
           BunkieUtil.navigateToMainPage(context);
         }
+        print(response.body);
       } catch (e) {
         print(e.toString());
       }
@@ -28,13 +29,14 @@ class BunkieAuthAPI {
       try {
         print(json.jsonEncode(formData));
         var response = await http.post(
-          Uri.parse(BunkieAddress.address),
+          Uri.parse(BunkieAddress.getRoute("users/signup")),
           headers: <String, String> {'Content-Type': 'application/json; charset=UTF-8',},
           body: json.jsonEncode(formData),
         );
         if (response.statusCode == 200) {
           BunkieUtil.navigateToLoginPage(context);
         }
+        print(response.body);
       } catch (e) {
         print(e.toString());
       }

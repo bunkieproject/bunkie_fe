@@ -16,7 +16,12 @@ class BunkieText {
 }
 
 class BunkieAddress{
-  static const String host = "161.9.42.252";
+  static const String protocol = "http://";
+  static const String host = "192.168.137.1";
   static const int port = 8080;
-  static const String address = "$host:$port";
+  static const String domain = "$protocol$host:$port";
+
+  static String getRoute(String service) {
+    return "$domain/$service";
+  }
 }
