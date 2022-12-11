@@ -1,3 +1,4 @@
+import 'package:app/api/auth.dart';
 import 'package:app/constants.dart';
 import 'package:app/widget/form.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _registerFormKey = GlobalKey<FormState>();
+  Map<String, String> _registerFormData = Map<String, String>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               SizedBox(height: screenHeight * 0.05),
                               // Button
                               BunkieFormWidgets.getSubmitButton(
-                                _registerAction,
+                                () {BunkieAuthAPI.loginAction(context, _registerFormKey, _registerFormData);},
                                 screenWidth * 0.3,
                                 screenHeight * 0.055,
                                 BunkieColors.dark,
@@ -96,9 +98,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _emailFormValidator(String? value) {
     if (value!.isEmpty) {
       return "Please enter your email";
-    } else if (!value.contains("@")) {
+    } else if (!value.contains("@gmail.com") && !value.contains("@yahoo.com") && !value.contains("@outlook.com")){
       return "Please enter a valid email";
     } else {
+      _registerFormData['email'] = value;
       return null;
     }
   }
@@ -107,6 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (value!.isEmpty) {
       return "Please enter your username";
     } else {
+      _registerFormData['username'] = value;
       return null;
     }
   }
@@ -115,6 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (value!.isEmpty) {
       return "Please enter your password";
     } else {
+      _registerFormData['password'] = value;
       return null;
     }
   }
@@ -122,15 +127,11 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _passwordConfirmationFormValidator(String? value) {
     if (value!.isEmpty) {
       return "Please enter your password";
+    } else if (_registerFormData['password'] != value) {
+        return "Passwords can not be different";
     } else {
+      _registerFormData['password_confirm'] = value;
       return null;
-    }
-  }
-
-  void _registerAction() {
-    if (_registerFormKey.currentState!.validate()) {
-      // TO DO : if form is valid, talk to backend
-      print("Talking to backend about Register");
     }
   }
 }

@@ -14,3 +14,9 @@ class BunkieText {
   static const double large = 1.5;
   static const double small = 0.75;
 }
+
+class BunkieAddress{
+  static const String host = "161.9.42.252";
+  static const int port = 8080;
+  static const String address = "$host:$port";
+}
