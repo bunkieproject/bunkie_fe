@@ -1,9 +1,8 @@
+import 'package:app/api/auth.dart';
+import 'package:app/api/util.dart';
 import 'package:app/constants.dart';
-import 'package:app/page/authentication/register.dart';
 import 'package:app/widget/form.dart';
 import 'package:flutter/material.dart';
-
-import 'forgotten_password.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +13,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _loginFormKey = GlobalKey<FormState>();
+  Map<String, String> _loginFormData = Map<String, String>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                                           _passwordFormValidator),
                                       TextButton(
                                           onPressed: () => {
-                                                _navigateToForgottenPasswordPage(
-                                                    context)
+                                                BunkieUtil
+                                                    .navigateToForgottenPasswordPage(
+                                                        context)
                                               },
                                           child: const Text(
                                             "Forgotten password?",
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(height: screenHeight * 0.05),
                               // Button
                               BunkieFormWidgets.getSubmitButton(
-                                _loginAction,
+                                () {BunkieAuthAPI.loginAction(context, _loginFormKey, _loginFormData);},
                                 screenWidth * 0.3,
                                 screenHeight * 0.055,
                                 BunkieColors.dark,
@@ -93,7 +94,8 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const Text("Don't you have any accounts?"),
                 TextButton(
-                    onPressed: () => {_navigateToRegisterPage(context)},
+                    onPressed: () =>
+                        {BunkieUtil.navigateToRegisterPage(context)},
                     child: const Text(
                       "Register",
                       style: TextStyle(color: BunkieColors.bright),
@@ -108,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
     if (value!.isEmpty) {
       return "Please enter your username";
     } else {
+      _loginFormData['username_or_email'] = value;
       return null;
     }
   }
@@ -116,24 +119,8 @@ class _LoginPageState extends State<LoginPage> {
     if (value!.isEmpty) {
       return "Please enter your password";
     } else {
+      _loginFormData['password'] = value;
       return null;
-    }
-  }
-
-  void _navigateToForgottenPasswordPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ForgottenPasswordPage()));
-  }
-
-  void _navigateToRegisterPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterPage()));
-  }
-
-  void _loginAction() {
-    if (_loginFormKey.currentState!.validate()) {
-      // TO DO : if form is valid, talk to backend
-      print("Talking to backend about Login");
     }
   }
 }
