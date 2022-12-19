@@ -3,14 +3,11 @@ import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class RoommateSearchPage extends StatefulWidget {
-  const RoommateSearchPage({super.key});
+class RoommateSearchPage extends StatelessWidget {
+  final String token;
+  const RoommateSearchPage({Key? key, required this.token}) : super(key: key);
 
   @override
-  _RoommateSearchPage createState() => _RoommateSearchPage();
-}
-
-class _RoommateSearchPage extends State<RoommateSearchPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -20,7 +17,7 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(),
+        drawer: BunkieSideBarNavigation(token: token),
         body: SingleChildScrollView(
             child: Container(
           padding: const EdgeInsets.all(25.0),

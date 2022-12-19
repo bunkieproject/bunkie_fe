@@ -2,14 +2,10 @@ import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatelessWidget {
+  final String token;
+  const ProfilePage({Key? key, required this.token}) : super(key: key);
 
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
