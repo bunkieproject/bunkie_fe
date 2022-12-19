@@ -1,5 +1,4 @@
 import 'package:app/constants.dart';
-import 'package:app/widget/form.dart';
 import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class _HouseSearchPage extends State<HouseSearchPage> {
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BunkieSearchPageWidgets.getHeader("House Search"),
               SizedBox(height: screenHeight * 0.00625),

@@ -28,7 +28,7 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BunkieSearchPageWidgets.getHeader("Bunkie Search"),
               SizedBox(height: screenHeight * 0.00625),
