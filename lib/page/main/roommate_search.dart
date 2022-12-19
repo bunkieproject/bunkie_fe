@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class RoommateSearchPage extends StatelessWidget {
   final String token;
-  final GlobalKey<FormState> _preferencesFormKey = GlobalKey<FormState>();
-  const RoommateSearchPage({Key? key, required this.token}) : super(key: key);
+  final _preferencesFormKey = GlobalKey<FormState>();
+  RoommateSearchPage({Key? key, required this.token}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
