@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class RoommateSearchPage extends StatelessWidget {
   final String token;
+  final _preferencesFormKey = GlobalKey<FormState>();
   const RoommateSearchPage({Key? key, required this.token}) : super(key: key);
 
-  @override
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -23,11 +23,15 @@ class RoommateSearchPage extends StatelessWidget {
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BunkieSearchPageWidgets.getHeader("Bunkie Search"),
               SizedBox(height: screenHeight * 0.00625),
-              BunkieSearchPageWidgets.getPreferencesButton(screenWidth, "Click to choose your preferences", null),
+              BunkieSearchPageWidgets.getPreferencesButton(
+                  screenWidth, "Click to choose your preferences", () {
+                BunkieSearchPageWidgets.getPreferencesPopUp(_preferencesFormKey,
+                    context, screenWidth * 0.9, screenHeight * 0.85);
+              }),
               SizedBox(height: screenHeight * 0.00625),
               getRoommateAds()
             ],
@@ -36,9 +40,6 @@ class RoommateSearchPage extends StatelessWidget {
   }
 
   Column getRoommateAds() {
-    // TODO: get house ads from back-end
     return Column();
   }
-
-  // TODO: function to open pop-up
 }
