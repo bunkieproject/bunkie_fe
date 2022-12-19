@@ -3,6 +3,9 @@ import "package:flutter/material.dart";
 import 'package:app/page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
+  final String token;
+  const BunkieSideBarNavigation({Key? key, required this.token}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -25,28 +28,28 @@ class BunkieSideBarNavigation extends StatelessWidget {
                   _buildMenuItem(
                     text: "Main Page",
                     icon: Icons.home,
-                    onClicked: () => _navigateTo(context, 0),
+                    onClicked: () => _navigateTo(context, 0, token),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Profile",
                     icon: Icons.person,
-                    onClicked: () => _navigateTo(context, 1),
+                    onClicked: () => _navigateTo(context, 1, token),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Messages",
                     icon: Icons.email,
-                    onClicked: () => _navigateTo(context, 2),
+                    onClicked: () => _navigateTo(context, 2, token),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Settings",
                     icon: Icons.settings,
-                    onClicked: () => _navigateTo(context, 3),
+                    onClicked: () => _navigateTo(context, 3, token),
                   ),
                   const Divider(color: BunkieColors.light)
                 ],
@@ -78,13 +81,13 @@ class BunkieSideBarNavigation extends StatelessWidget {
     );
   }
 
-  void _navigateTo(BuildContext context, int index) {
+  void _navigateTo(BuildContext context, int index, String token) {
     Navigator.of(context).pop();
 
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const MainPage(),
+          builder: (context) => MainPage(token: token),
         ));
         break;
       

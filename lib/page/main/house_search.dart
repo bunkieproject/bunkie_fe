@@ -3,15 +3,10 @@ import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class HouseSearchPage extends StatefulWidget {
-  const HouseSearchPage({super.key});
-
-  @override
-  _HouseSearchPage createState() => _HouseSearchPage();
-}
-
-class _HouseSearchPage extends State<HouseSearchPage> {
+class HouseSearchPage extends StatelessWidget {
+  final String token;
   final _preferencesFormKey = GlobalKey<FormState>();
+  HouseSearchPage({Key? key, required this.token}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +17,7 @@ class _HouseSearchPage extends State<HouseSearchPage> {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(),
+        drawer: BunkieSideBarNavigation(token: token),
         body: SingleChildScrollView(
             child: Container(
           padding: const EdgeInsets.all(25.0),
