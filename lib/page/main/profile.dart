@@ -14,15 +14,11 @@ const List<Widget> ads = <Widget>[
       )),
 ];
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
 
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePage extends StatelessWidget {
+  final String token;
   final List<bool> _isSelected = <bool>[true, false];
+  ProfilePage({Key? key, required this.token}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: BunkieColors.bright,
       ),
-      drawer: BunkieSideBarNavigation(),
+      drawer: BunkieSideBarNavigation(token: token),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

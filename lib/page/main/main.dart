@@ -4,14 +4,10 @@ import 'package:app/page/main/roommate_search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class MainPage extends StatelessWidget {
+  final String token;
+  const MainPage({Key? key, required this.token}) : super(key: key);
 
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -21,7 +17,7 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(),
+        drawer: BunkieSideBarNavigation(token: token),
         body: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +32,7 @@ class _MainPageState extends State<MainPage> {
                 child: TextButton(
                     onPressed: () => {_navigateToHouseSearchPage(context)},
                     child: const Text(
-                      "Search Home",
+                      "Search House",
                       textAlign: TextAlign.center,
                       textScaleFactor: BunkieText.large,
                       style: TextStyle(color: BunkieColors.light),
@@ -69,11 +65,11 @@ class _MainPageState extends State<MainPage> {
 
   void _navigateToHouseSearchPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HouseSearchPage()));
+        .push(MaterialPageRoute(builder: (context) => HouseSearchPage(token: token)));
   }
 
   void _navigateToRoommateSearchPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage()));
+        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage(token: token)));
   }
 }

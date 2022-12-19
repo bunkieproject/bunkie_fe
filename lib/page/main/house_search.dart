@@ -1,17 +1,13 @@
 import 'package:app/constants.dart';
-import 'package:app/widget/form.dart';
 import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class HouseSearchPage extends StatefulWidget {
-  const HouseSearchPage({super.key});
+class HouseSearchPage extends StatelessWidget {
+  final String token;
+  final _preferencesFormKey = GlobalKey<FormState>();
+  HouseSearchPage({Key? key, required this.token}) : super(key: key);
 
-  @override
-  _HouseSearchPage createState() => _HouseSearchPage();
-}
-
-class _HouseSearchPage extends State<HouseSearchPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -21,18 +17,21 @@ class _HouseSearchPage extends State<HouseSearchPage> {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(),
+        drawer: BunkieSideBarNavigation(token: token),
         body: SingleChildScrollView(
             child: Container(
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BunkieSearchPageWidgets.getHeader("House Search"),
               SizedBox(height: screenHeight * 0.00625),
               BunkieSearchPageWidgets.getPreferencesButton(
-                  screenWidth, "Click to choose your preferences", () {}),
+                  screenWidth, "Click to choose your preferences", () {
+                BunkieSearchPageWidgets.getPreferencesPopUp(_preferencesFormKey,
+                    context, screenWidth * 0.9, screenHeight * 0.85);
+              }),
               SizedBox(height: screenHeight * 0.00625),
               getHouseAds()
             ],
@@ -41,7 +40,6 @@ class _HouseSearchPage extends State<HouseSearchPage> {
   }
 
   Column getHouseAds() {
-    // TODO: get house ads from back-end
     return Column();
   }
 }
