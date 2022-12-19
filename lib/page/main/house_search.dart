@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 
 class HouseSearchPage extends StatelessWidget {
   final String token;
-  const HouseSearchPage({Key? key, required this.token}) : super(key: key);
+  final _preferencesFormKey = GlobalKey<FormState>();
+  HouseSearchPage({Key? key, required this.token}) : super(key: key);
 
-  @override
-  _HouseSearchPage createState() => _HouseSearchPage();
-}
-
-class _HouseSearchPage extends State<HouseSearchPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
