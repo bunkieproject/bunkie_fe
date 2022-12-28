@@ -18,7 +18,7 @@ class BunkieAuthAPI {
           BunkieUtil.navigateToMainPage(context, responseMap["token"]);
         }
       } catch (e) {
-        
+        print(e.toString());
       }
     }
   }
@@ -26,7 +26,6 @@ class BunkieAuthAPI {
   static Future<void> registerAction(BuildContext context, GlobalKey<FormState> formKey, Map<String, String> formData) async {
   if (formKey.currentState!.validate()) {
       try {
-        print(json.jsonEncode(formData));
         var response = await http.post(
           Uri.parse(BunkieAddress.getRoute("users/signup")),
           headers: <String, String> {'Content-Type': 'application/json; charset=UTF-8',},
