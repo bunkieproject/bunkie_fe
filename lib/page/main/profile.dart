@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
-                'assets/images/Untitled.png',
+                'assets/images/babur.png',
                 fit: BoxFit.fill,
                 height: 150,
                 width: 150,
@@ -111,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Container(
                 width: screenWidth * 0.75,
                 color: BunkieColors.bright,
-                padding: const EdgeInsets.all(25),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     Row(
@@ -130,7 +130,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     Column(
                       children: [
-                        Text("haha"),
+                        houseAddCard(screenWidth, "Header", "Specifications",
+                            4500, "size", "school", "gender", "location"),
                       ],
                     ),
                   ],
@@ -190,51 +191,31 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget getHouseAd(
-    void Function()? onPressed,
-    double width,
-    double height,
-    Color backgroundColor,
-    String text1,
-    String text2,
-    Color textColor,
-  ) {
-    return Container(
-        height: height,
-        // ignore: prefer_const_constructors
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          color: BunkieColors.transparentSlate,
-        ),
-        child: Container(
-          child: Column(
-            children: [Text("haha")],
+  Widget houseAddCard(
+      double screenWidth,
+      String header,
+      String specifications,
+      double price,
+      String size,
+      String school,
+      String gender,
+      String location) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ClipRRect(
+            // ignore: prefer_const_constructors
+            child: Container(
+          width: screenWidth * 0.75,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            color: BunkieColors.slate,
           ),
-        ));
+          child: Column(
+            children: [
+              BunkieProfilePageWidgets.houseAddInfoBox(screenWidth, header,
+                  specifications, price, size, school, gender, location),
+            ],
+          ),
+        )));
   }
 }
-
-// [
-//           ElevatedButton(
-//               onPressed: onPressed,
-//               style: ButtonStyle(
-//                 backgroundColor: MaterialStateProperty.all(backgroundColor),
-//                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(25.0))),
-//               ),
-//               child: Text(text1,
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(color: textColor),
-//                   textScaleFactor: BunkieText.medium)),
-//           ElevatedButton(
-//               onPressed: onPressed,
-//               style: ButtonStyle(
-//                 backgroundColor: MaterialStateProperty.all(backgroundColor),
-//                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(25.0))),
-//               ),
-//               child: Text(text2,
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(color: textColor),
-//                   textScaleFactor: BunkieText.medium))
-//         ],
