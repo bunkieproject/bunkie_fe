@@ -14,8 +14,9 @@ const List<Widget> ads = <Widget>[
       )),
 ];
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatelessWidget {
+  final String token;
+  const ProfilePage({Key? key, required this.token}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

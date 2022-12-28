@@ -3,14 +3,11 @@ import 'package:app/widget/search.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class RoommateSearchPage extends StatefulWidget {
-  const RoommateSearchPage({super.key});
+class RoommateSearchPage extends StatelessWidget {
+  final String token;
+  final _preferencesFormKey = GlobalKey<FormState>();
+  RoommateSearchPage({Key? key, required this.token}) : super(key: key);
 
-  @override
-  _RoommateSearchPage createState() => _RoommateSearchPage();
-}
-
-class _RoommateSearchPage extends State<RoommateSearchPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -20,17 +17,21 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(),
+        drawer: BunkieSideBarNavigation(token: token),
         body: SingleChildScrollView(
             child: Container(
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BunkieSearchPageWidgets.getHeader("Bunkie Search"),
               SizedBox(height: screenHeight * 0.00625),
-              BunkieSearchPageWidgets.getPreferencesButton(screenWidth, "Click to choose your preferences", null),
+              BunkieSearchPageWidgets.getPreferencesButton(
+                  screenWidth, "Click to choose your preferences", () {
+                BunkieSearchPageWidgets.getPreferencesPopUp(_preferencesFormKey,
+                    context, screenWidth * 0.9, screenHeight * 0.85);
+              }),
               SizedBox(height: screenHeight * 0.00625),
               getRoommateAds()
             ],
@@ -39,9 +40,6 @@ class _RoommateSearchPage extends State<RoommateSearchPage> {
   }
 
   Column getRoommateAds() {
-    // TODO: get house ads from back-end
     return Column();
   }
-
-  // TODO: function to open pop-up
 }
