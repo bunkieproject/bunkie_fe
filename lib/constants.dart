@@ -16,10 +16,9 @@ class BunkieText {
 }
 
 class BunkieAddress{
-  static const String protocol = "http://";
-  static const String host = "192.168.137.1";
-  static const int port = 8080;
-  static const String domain = "$protocol$host:$port";
+  static const String protocol = "https";
+  static const String host = "bunkie-gateway-9l5d0gmk.nw.gateway.dev";
+  static const String domain = "$protocol://$host";
 
   static String getRoute(String service) {
     return "$domain/$service";
