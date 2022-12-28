@@ -1,10 +1,12 @@
 import "package:app/constants.dart";
+import 'package:app/page/main/profile.dart';
 import "package:flutter/material.dart";
 import 'package:app/page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
   final String token;
-  const BunkieSideBarNavigation({Key? key, required this.token}) : super(key: key);
+  const BunkieSideBarNavigation({Key? key, required this.token})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,10 @@ class BunkieSideBarNavigation extends StatelessWidget {
           builder: (context) => MainPage(token: token),
         ));
         break;
-      
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProfilePage(token: token),
+        ));
       // TODO: navigate to other pages
     }
   }
