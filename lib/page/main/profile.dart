@@ -116,8 +116,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: ElevatedButton(
+                            style: raisedButtonStyle,
+                            onPressed: () {},
+                            child: Text('+'),
+                          ),
+                        ),
                         getProfileAdToggleButton(
                           _houseAction,
                           screenWidth * 0.5,
