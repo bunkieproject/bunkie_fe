@@ -4,13 +4,13 @@ import 'package:app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class BunkieAuthAPI {
-  static Future<void> loginAction(BuildContext context,
+class BunkieSearchAPI {
+  static Future<Column> getHouseAds(BuildContext context,
       GlobalKey<FormState> formKey, Map<String, String> formData) async {
     if (formKey.currentState!.validate()) {
       try {
         var response = await http.post(
-          Uri.parse(BunkieAddress.getRoute("users/login")),
+          Uri.parse(BunkieAddress.getRoute("ads/get_room_ad")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -19,31 +19,49 @@ class BunkieAuthAPI {
 
         if (response.statusCode == 200) {
           Map<String, dynamic> responseMap = json.jsonDecode(response.body);
-          BunkieUtil.navigateToMainPage(context, responseMap["token"], responseMap["user_id"]);
+          // TODO : crate column
+          return Column();
         }
-      } catch (e) {
+
+        // TODO : crate column
+        return Column();
+      }
+      
+      catch (e) {
         print(e.toString());
       }
     }
+
+    return Column();
   }
 
-  static Future<void> registerAction(BuildContext context,
+  static Future<Column> getBunkieAds(BuildContext context,
       GlobalKey<FormState> formKey, Map<String, String> formData) async {
     if (formKey.currentState!.validate()) {
       try {
         var response = await http.post(
-          Uri.parse(BunkieAddress.getRoute("users/signup")),
+          Uri.parse(BunkieAddress.getRoute("ads/get_bunkie")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: json.jsonEncode(formData),
         );
+
         if (response.statusCode == 200) {
-          BunkieUtil.navigateToLoginPage(context);
+          Map<String, dynamic> responseMap = json.jsonDecode(response.body);
+          // TODO : crate column
+          return Column();
         }
-      } catch (e) {
+
+        // TODO : crate column
+        return Column();
+      }
+      
+      catch (e) {
         print(e.toString());
       }
     }
+
+    return Column();
   }
 }

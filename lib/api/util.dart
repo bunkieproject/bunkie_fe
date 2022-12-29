@@ -20,8 +20,8 @@ class BunkieUtil {
         .push(MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 
-  static void navigateToMainPage(BuildContext context, String token) {
+  static void navigateToMainPage(BuildContext context, String token, String userID) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MainPage(token: token)));
+        .push(MaterialPageRoute(builder: (context) => MainPage(token: token, userID: userID,)));
   }
 }
