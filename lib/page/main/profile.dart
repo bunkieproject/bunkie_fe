@@ -16,7 +16,8 @@ const List<Widget> ads = <Widget>[
 
 class ProfilePage extends StatefulWidget {
   final String token;
-  const ProfilePage({Key? key, required this.token}) : super(key: key);
+  final String userID;
+  const ProfilePage({Key? key, required this.token, required this.userID}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: BunkieColors.bright,
       ),
-      drawer: BunkieSideBarNavigation(token: widget.token),
+      drawer: BunkieSideBarNavigation(token: widget.token, userID: widget.userID,),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

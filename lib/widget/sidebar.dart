@@ -5,7 +5,8 @@ import 'package:app/page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
   final String token;
-  const BunkieSideBarNavigation({Key? key, required this.token})
+  final String userID;
+  const BunkieSideBarNavigation({Key? key, required this.token, required this.userID})
       : super(key: key);
 
   @override
@@ -30,28 +31,28 @@ class BunkieSideBarNavigation extends StatelessWidget {
                   _buildMenuItem(
                     text: "Main Page",
                     icon: Icons.home,
-                    onClicked: () => _navigateTo(context, 0, token),
+                    onClicked: () => _navigateTo(context, 0, token, userID),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Profile",
                     icon: Icons.person,
-                    onClicked: () => _navigateTo(context, 1, token),
+                    onClicked: () => _navigateTo(context, 1, token, userID),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Messages",
                     icon: Icons.email,
-                    onClicked: () => _navigateTo(context, 2, token),
+                    onClicked: () => _navigateTo(context, 2, token, userID),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Settings",
                     icon: Icons.settings,
-                    onClicked: () => _navigateTo(context, 3, token),
+                    onClicked: () => _navigateTo(context, 3, token, userID),
                   ),
                   const Divider(color: BunkieColors.light)
                 ],
@@ -83,18 +84,18 @@ class BunkieSideBarNavigation extends StatelessWidget {
     );
   }
 
-  void _navigateTo(BuildContext context, int index, String token) {
+  void _navigateTo(BuildContext context, int index, String token, String userID) {
     Navigator.of(context).pop();
 
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(token: token),
+          builder: (context) => MainPage(token: token, userID: userID,),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ProfilePage(token: token),
+          builder: (context) => ProfilePage(token: token, userID: userID),
         ));
       // TODO: navigate to other pages
     }

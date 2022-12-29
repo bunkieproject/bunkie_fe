@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {
   final String token;
-  const MainPage({Key? key, required this.token}) : super(key: key);
+  final String userID;
+  const MainPage({Key? key, required this.token, required this.userID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: BunkieColors.bright,
         ),
-        drawer: BunkieSideBarNavigation(token: token),
+        drawer: BunkieSideBarNavigation(token: token, userID: userID,),
         body: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,11 +66,11 @@ class MainPage extends StatelessWidget {
 
   void _navigateToHouseSearchPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HouseSearchPage(token: token)));
+        .push(MaterialPageRoute(builder: (context) => HouseSearchPage(token: token, userID: userID)));
   }
 
   void _navigateToRoommateSearchPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage(token: token)));
+        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage(token: token, userID: userID)));
   }
 }
