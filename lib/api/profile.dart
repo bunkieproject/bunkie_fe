@@ -11,14 +11,14 @@ class BunkieProfileAPI {
     BunkieProfilePageWidgets widgets = BunkieProfilePageWidgets();
     Map<String, dynamic> form = {'token': token, 'user_id': id};
     try {
-      var response = await http.post(
-        Uri.parse(BunkieAddress.getRoute("ads/get_room_ad")),
+      var response = await http.get(
+        Uri.https(BunkieAddress.host, "/ads/get_room_ad",
+            form.map((key, value) => MapEntry(key, value.toString()))),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: json.jsonEncode(form),
+        //body: json.jsonEncode(form),
       );
-
       if (response.statusCode == 200) {
         Map<String, dynamic> responseMap = json.jsonDecode(response.body);
         List<dynamic> house_ads = responseMap["room_ads"];
@@ -28,8 +28,6 @@ class BunkieProfileAPI {
     } catch (e) {
       print(e.toString());
     }
-    throw () {
-      Map<String, dynamic>();
-    };
+    return Map<String, dynamic>();
   }
 }

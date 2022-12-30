@@ -3,6 +3,7 @@ import 'package:app/page/authentication/login.dart';
 import 'package:app/page/authentication/register.dart';
 import 'package:app/page/main/main.dart';
 import 'package:app/page/main/profile.dart';
+import 'package:app/page/add/create_ad.dart';
 import 'package:flutter/material.dart';
 
 class BunkieUtil {
@@ -34,6 +35,15 @@ class BunkieUtil {
       BuildContext context, String token, String userID) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ProfilePage(
+              token: token,
+              userID: userID,
+            )));
+  }
+
+  static void navigateToCreateAdPage(
+      BuildContext context, String token, String userID) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CreateAdPage(
               token: token,
               userID: userID,
             )));

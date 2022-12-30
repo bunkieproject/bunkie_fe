@@ -3,6 +3,7 @@ import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:app/api/profile.dart';
+import 'package:app/api/util.dart';
 
 const List<Widget> ads = <Widget>[
   Text('House Ads',
@@ -31,9 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    Future<Map<String, dynamic>> responseMap =
-        BunkieProfileAPI.getHouseAdAction(
-            context, widget.token, widget.userID, screenWidth);
     return Scaffold(
       backgroundColor: BunkieColors.light,
       appBar: AppBar(
@@ -130,7 +128,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: EdgeInsets.only(left: 10.0),
                           child: ElevatedButton(
                             style: raisedButtonStyle,
-                            onPressed: () {},
+                            onPressed: () => {
+                              BunkieUtil.navigateToCreateAdPage(
+                                  context, widget.token, widget.userID)
+                            },
                             child: Text('+'),
                           ),
                         ),
@@ -155,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           default:
                             if (snapshot.hasError)
                               return Text('Error: ${snapshot.error}');
-                            else
+                            else if (snapshot.data!.length != 0)
                               return Column(
                                 children: [
                                   BunkieProfilePageWidgets.houseAddCard(
@@ -173,6 +174,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                           snapshot.data?["City"])
                                 ],
                               );
+                            else
+                              return Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("There is no ad to show!"));
                         }
                       }),
                     ),

@@ -39,6 +39,7 @@ class BunkieAuthAPI {
           },
           body: json.jsonEncode(formData),
         );
+        print(response.body);
         if (response.statusCode == 200) {
           BunkieUtil.navigateToLoginPage(context);
         }
