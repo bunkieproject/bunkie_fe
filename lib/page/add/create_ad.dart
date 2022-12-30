@@ -2,12 +2,15 @@ import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:app/api/profile.dart';
 import 'package:app/widget/form.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as ImgPackage;
 
 class CreateAdPage extends StatefulWidget {
   final String token;
@@ -21,8 +24,10 @@ class CreateAdPage extends StatefulWidget {
 
 class _CreateAdPageState extends State<CreateAdPage> {
   Map<String, dynamic> _adFormData = Map<String, dynamic>();
+  final _createAdFormKey = GlobalKey<FormState>();
   File? image;
-  List<XFile>? imageFileList = [];
+  List<Uint8List>? imageFileList = [];
+  List<String> imageNameList = [];
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -43,81 +48,121 @@ class _CreateAdPageState extends State<CreateAdPage> {
               height: screenHeight * 0.75,
               child: SingleChildScrollView(
                   child: Padding(
-                padding: EdgeInsets.only(top: formFieldPadding * 1.5),
-                child: Column(children: [
-                  Padding(
-                      padding: EdgeInsets.all(formFieldPadding),
-                      child: const Text(
-                        "Create Advertisement",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: BunkieColors.dark,
-                            fontWeight: FontWeight.bold),
-                        textScaleFactor: BunkieText.large,
-                      )),
-                  Card(
-                    color: BunkieColors.bright,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0)),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                      padding: EdgeInsets.only(top: formFieldPadding * 1.5),
+                      child: Form(
+                        key: _createAdFormKey,
+                        child: Column(children: [
                           Padding(
-                            padding: EdgeInsets.all(formFieldPadding),
-                            child: uploadPhotoContainer(formFieldPadding,
-                                "Upload Photo", screenWidth, screenHeight),
-                          ),
-                          this.imageFileList!.isNotEmpty
-                              ? const Text("I have picked an image!")
-                              : const Text("No image chosen."),
-                          formFieldContainer(formFieldPadding, "Header",
-                              screenWidth, _headerValidator),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              formFieldContainer(formFieldPadding, "City",
-                                  screenWidth * 0.45, _cityValidator),
-                              formFieldContainer(formFieldPadding, "District",
-                                  screenWidth * 0.45, _districtValidator),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              formFieldContainer(formFieldPadding, "Quarter",
-                                  screenWidth * 0.45, _quarterValidator),
-                              formFieldContainer(formFieldPadding, "Size",
-                                  screenWidth * 0.45, _sizeValidator),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              formFieldContainer(formFieldPadding, "School",
-                                  screenWidth * 0.45, _schoolValidator),
-                              formFieldContainer(formFieldPadding, "Gender",
-                                  screenWidth * 0.45, _genderValidator),
-                            ],
-                          ),
-                          formFieldContainer(formFieldPadding, "Price",
-                              screenWidth, _priceValidator),
-                          descriptionFieldContainer(formFieldPadding,
-                              "Description", screenWidth, _priceValidator),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 20),
-                            child: BunkieFormWidgets.getSubmitButton(
-                              () {},
-                              screenWidth * 0.3,
-                              screenHeight * 0.055,
-                              BunkieColors.dark,
-                              "Submit",
-                              BunkieColors.light,
-                            ),
+                              padding: EdgeInsets.all(formFieldPadding),
+                              child: const Text(
+                                "Create Advertisement",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: BunkieColors.dark,
+                                    fontWeight: FontWeight.bold),
+                                textScaleFactor: BunkieText.large,
+                              )),
+                          Card(
+                            color: BunkieColors.bright,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0)),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(formFieldPadding),
+                                    child: uploadPhotoContainer(
+                                        formFieldPadding,
+                                        "Upload Photo",
+                                        screenWidth,
+                                        screenHeight,
+                                        _photoValidator),
+                                  ),
+                                  this.imageFileList!.isNotEmpty
+                                      ? const Text("I have picked an image!")
+                                      : const Text("No image chosen."),
+                                  formFieldContainer(formFieldPadding, "Header",
+                                      screenWidth, _headerValidator),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "City",
+                                          screenWidth * 0.45,
+                                          _cityValidator),
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "District",
+                                          screenWidth * 0.45,
+                                          _districtValidator),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "Quarter",
+                                          screenWidth * 0.45,
+                                          _quarterValidator),
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "Size",
+                                          screenWidth * 0.45,
+                                          _sizeValidator),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "School",
+                                          screenWidth * 0.45,
+                                          _schoolValidator),
+                                      formFieldContainer(
+                                          formFieldPadding,
+                                          "Gender",
+                                          screenWidth * 0.45,
+                                          _genderValidator),
+                                    ],
+                                  ),
+                                  formFieldContainer(formFieldPadding, "Price",
+                                      screenWidth, _priceValidator),
+                                  descriptionFieldContainer(
+                                      formFieldPadding,
+                                      "Description",
+                                      screenWidth,
+                                      _descriptionValidator),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, bottom: 20),
+                                    child: BunkieFormWidgets.getSubmitButton(
+                                      () {
+                                        if (_createAdFormKey.currentState!
+                                            .validate()) {
+                                          BunkieProfileAPI.createAdAction(
+                                              context,
+                                              widget.token,
+                                              widget.userID,
+                                              _adFormData);
+                                        }
+                                      },
+                                      screenWidth * 0.3,
+                                      screenHeight * 0.055,
+                                      BunkieColors.dark,
+                                      "Submit",
+                                      BunkieColors.light,
+                                    ),
+                                  )
+                                ]),
                           )
                         ]),
-                  )
-                ]),
-              )))
+                      ))))
         ]));
   }
 
@@ -127,7 +172,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     } else if (value.length > 100) {
       return "Header needs to be under 100 characters!";
     } else {
-      _adFormData['Header'] = value;
+      _adFormData['header'] = value;
       return null;
     }
   }
@@ -136,7 +181,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a city";
     } else {
-      _adFormData['City'] = value;
+      _adFormData['city'] = value;
       return null;
     }
   }
@@ -145,7 +190,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a district";
     } else {
-      _adFormData['District'] = value;
+      _adFormData['district'] = value;
       return null;
     }
   }
@@ -154,7 +199,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a district";
     } else {
-      _adFormData['Quarter'] = value;
+      _adFormData['quarter'] = value;
       return null;
     }
   }
@@ -163,7 +208,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a district";
     } else {
-      _adFormData['NumberOfRooms'] = value;
+      _adFormData['number_of_rooms'] = value;
       return null;
     }
   }
@@ -172,7 +217,16 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a price";
     } else {
-      _adFormData['Price'] = value;
+      _adFormData['price'] = double.parse(value);
+      return null;
+    }
+  }
+
+  String? _descriptionValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please give a price";
+    } else {
+      _adFormData['description'] = value;
       return null;
     }
   }
@@ -181,23 +235,31 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a school";
     } else {
-      _adFormData['School'] = value;
+      _adFormData['school'] = value;
+      return null;
+    }
+  }
+
+  String? _photoValidator(List<XFile>? imageFileList) {
+    if (imageFileList!.isEmpty) {
+      return "Please select an image.";
+    } else {
       return null;
     }
   }
 
   String? _genderValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please specifiy a gender prefernece";
-    } else if (value != "female" ||
-        value != "Female" ||
-        value != "male" ||
-        value != "Male" ||
-        value != "None" ||
+      return "Please specifiy a gender preference";
+    } else if (value != "female" &&
+        value != "Female" &&
+        value != "male" &&
+        value != "Male" &&
+        value != "None" &&
         value != "none") {
-      return "Please specify a gender prefernece: Female, Male or None";
+      return "Please specify a gender preference: Female, Male or None";
     } else {
-      _adFormData['GenderPreferred'] = value;
+      _adFormData['gender_preferred'] = value;
       return null;
     }
   }
@@ -230,7 +292,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
   }
 
   Widget uploadPhotoContainer(
-      double formFieldPadding, heading, screenWidth, screenHeight) {
+      double formFieldPadding, heading, screenWidth, screenHeight, validator) {
     return Container(
         width: screenWidth,
         padding: EdgeInsets.all(formFieldPadding),
@@ -248,19 +310,29 @@ class _CreateAdPageState extends State<CreateAdPage> {
             BunkieFormWidgets.getSubmitButton(
               () async {
                 try {
-                  // final image = await ImagePicker()
-                  //     .pickImage(source: ImageSource.gallery);
-                  // if (image == null) return;
-                  // File tempImg = File(image.path);
-                  // setState(() => this.image = tempImg);
                   final List<XFile> selectedImages =
                       await ImagePicker().pickMultiImage();
-                  if (selectedImages.isNotEmpty) {
-                    imageFileList!.addAll(selectedImages);
-                  }
-                  print(
-                      "Image List Length:" + imageFileList!.length.toString());
-                  setState(() {});
+                  print(selectedImages.length);
+                  setState(() {
+                    for (int j = 0; j < selectedImages.length; j++) {
+                      File currentImg = File(selectedImages[j].path);
+                      Uint8List bytes = currentImg.readAsBytesSync();
+                      ImgPackage.Image? packageImg = ImgPackage.PngDecoder()
+                          .decodeImage(bytes.buffer.asUint8List());
+                      ImgPackage.Image resized =
+                          ImgPackage.copyResize(packageImg!, width: 50);
+                      Uint8List resizedImg =
+                          Uint8List.fromList(ImgPackage.encodePng(resized));
+                      if (j == 0) {
+                        String base64string = base64.encode(resizedImg);
+                        _adFormData["header_bytearray"] = base64string;
+                      } else {
+                        String base64string = base64.encode(resizedImg);
+                        _adFormData["other_bytearrays"] = ",$base64string";
+                      }
+                      imageFileList?.add(resizedImg);
+                    }
+                  });
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
                 }
