@@ -132,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               BunkieUtil.navigateToCreateAdPage(
                                   context, widget.token, widget.userID)
                             },
-                            child: Text('+'),
+                            child: const Text('+'),
                           ),
                         ),
                         getProfileAdToggleButton(
@@ -152,11 +152,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder: ((context, snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return Text('Loading....');
+                            return const Text('Loading....');
                           default:
-                            if (snapshot.hasError)
+                            if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
-                            else if (snapshot.data!.length != 0)
+                            } else if (snapshot.data!.isNotEmpty) {
                               return Column(
                                 children: [
                                   BunkieProfilePageWidgets.houseAddCard(
@@ -174,10 +174,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                           snapshot.data?["City"])
                                 ],
                               );
-                            else
-                              return Padding(
+                            } else {
+                              return const Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text("There is no ad to show!"));
+                            }
                         }
                       }),
                     ),

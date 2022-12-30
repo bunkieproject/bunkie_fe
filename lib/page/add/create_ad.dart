@@ -16,33 +16,100 @@ class CreateAdPage extends StatefulWidget {
 }
 
 class _CreateAdPageState extends State<CreateAdPage> {
-  Map<String, String> _adFormData = Map<String, String>();
+  Map<String, dynamic> _adFormData = Map<String, dynamic>();
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double formFieldPadding = 15;
     return Scaffold(
-      backgroundColor: BunkieColors.light,
-      appBar: AppBar(
-        backgroundColor: BunkieColors.bright,
-      ),
-      drawer: BunkieSideBarNavigation(
-        token: widget.token,
-        userID: widget.userID,
-      ),
-      body: Center(
-        child: Column(children: [
-          BunkieFormWidgets.getTextFormFieldIconless(
-              false, "Header", _headerValidator),
-          // Row(
-          //   children: [
-          //     BunkieFormWidgets.getTextFormFieldIconless(
-          //         false, "City", _cityValidator),
-          //     BunkieFormWidgets.getTextFormFieldIconless(
-          //         false, "District", _districtValidator)
-          //   ],
-          // ),
-        ]),
-      ),
-    );
+        backgroundColor: BunkieColors.light,
+        appBar: AppBar(
+          backgroundColor: BunkieColors.bright,
+        ),
+        drawer: BunkieSideBarNavigation(
+          token: widget.token,
+          userID: widget.userID,
+        ),
+        body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SizedBox(
+              width: screenWidth * 0.95,
+              height: screenHeight * 0.75,
+              child: SingleChildScrollView(
+                  child: Padding(
+                padding: EdgeInsets.only(top: formFieldPadding * 1.5),
+                child: Column(children: [
+                  Padding(
+                      padding: EdgeInsets.all(formFieldPadding),
+                      child: const Text(
+                        "Create Advertisement",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: BunkieColors.dark,
+                            fontWeight: FontWeight.bold),
+                        textScaleFactor: BunkieText.large,
+                      )),
+                  Card(
+                    color: BunkieColors.bright,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(formFieldPadding),
+                            child: uploadPhotoContainer(formFieldPadding,
+                                "Upload Photo", screenWidth, screenHeight),
+                          ),
+                          formFieldContainer(formFieldPadding, "Header",
+                              screenWidth, _headerValidator),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              formFieldContainer(formFieldPadding, "City",
+                                  screenWidth * 0.45, _cityValidator),
+                              formFieldContainer(formFieldPadding, "District",
+                                  screenWidth * 0.45, _districtValidator),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              formFieldContainer(formFieldPadding, "Quarter",
+                                  screenWidth * 0.45, _quarterValidator),
+                              formFieldContainer(formFieldPadding, "Size",
+                                  screenWidth * 0.45, _sizeValidator),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              formFieldContainer(formFieldPadding, "School",
+                                  screenWidth * 0.45, _schoolValidator),
+                              formFieldContainer(formFieldPadding, "Gender",
+                                  screenWidth * 0.45, _genderValidator),
+                            ],
+                          ),
+                          formFieldContainer(formFieldPadding, "Price",
+                              screenWidth, _priceValidator),
+                          descriptionFieldContainer(formFieldPadding,
+                              "Description", screenWidth, _priceValidator),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: BunkieFormWidgets.getSubmitButton(
+                              () {},
+                              screenWidth * 0.3,
+                              screenHeight * 0.055,
+                              BunkieColors.dark,
+                              "Submit",
+                              BunkieColors.light,
+                            ),
+                          )
+                        ]),
+                  )
+                ]),
+              )))
+        ]));
   }
 
   String? _headerValidator(String? value) {
@@ -51,7 +118,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     } else if (value.length > 100) {
       return "Header needs to be under 100 characters!";
     } else {
-      _adFormData['header'] = value;
+      _adFormData['Header'] = value;
       return null;
     }
   }
@@ -60,7 +127,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a city";
     } else {
-      _adFormData['city'] = value;
+      _adFormData['City'] = value;
       return null;
     }
   }
@@ -69,8 +136,115 @@ class _CreateAdPageState extends State<CreateAdPage> {
     if (value!.isEmpty) {
       return "Please give a district";
     } else {
-      _adFormData['district'] = value;
+      _adFormData['District'] = value;
       return null;
     }
+  }
+
+  String? _quarterValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please give a district";
+    } else {
+      _adFormData['Quarter'] = value;
+      return null;
+    }
+  }
+
+  String? _sizeValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please give a district";
+    } else {
+      _adFormData['NumberOfRooms'] = value;
+      return null;
+    }
+  }
+
+  String? _priceValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please give a price";
+    } else {
+      _adFormData['Price'] = value;
+      return null;
+    }
+  }
+
+  String? _schoolValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please give a school";
+    } else {
+      _adFormData['School'] = value;
+      return null;
+    }
+  }
+
+  String? _genderValidator(String? value) {
+    if (value!.isEmpty) {
+      return "Please specifiy a gender prefernece";
+    } else if (value != "female" ||
+        value != "Female" ||
+        value != "male" ||
+        value != "Male" ||
+        value != "None" ||
+        value != "none") {
+      return "Please specify a gender prefernece: Female, Male or None";
+    } else {
+      _adFormData['GenderPreferred'] = value;
+      return null;
+    }
+  }
+
+  static Container descriptionFieldContainer(
+      double formFieldPadding, fieldName, width, validator) {
+    return Container(
+        width: width,
+        padding: EdgeInsets.all(formFieldPadding),
+        child: TextFormField(
+            maxLines: null,
+            obscureText: false,
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: BunkieColors.light,
+                labelText: fieldName,
+                border: const UnderlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.5)))),
+            validator: validator));
+  }
+
+  static Container formFieldContainer(
+      double formFieldPadding, fieldName, width, validator) {
+    return Container(
+      width: width,
+      padding: EdgeInsets.all(formFieldPadding),
+      child: BunkieFormWidgets.getTextFormFieldIconless(
+          false, fieldName, validator),
+    );
+  }
+
+  static Container uploadPhotoContainer(
+      double formFieldPadding, heading, screenWidth, screenHeight) {
+    return Container(
+        width: screenWidth,
+        padding: EdgeInsets.all(formFieldPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+                padding: EdgeInsets.only(top: 5, left: 5),
+                child: Text(
+                  heading,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: BunkieColors.light),
+                  textScaleFactor: BunkieText.large,
+                )),
+            BunkieFormWidgets.getSubmitButton(
+              () {},
+              screenWidth * 0.3,
+              screenHeight * 0.055,
+              BunkieColors.dark,
+              "Browse Files",
+              BunkieColors.light,
+            ),
+          ],
+        ));
   }
 }
