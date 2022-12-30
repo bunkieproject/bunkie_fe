@@ -3,6 +3,7 @@ import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:app/api/profile.dart';
+import 'package:app/api/util.dart';
 
 const List<Widget> ads = <Widget>[
   Text('House Ads',
@@ -31,9 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    Future<Map<String, dynamic>> responseMap =
-        BunkieProfileAPI.getHouseAdAction(
-            context, widget.token, widget.userID, screenWidth);
     return Scaffold(
       backgroundColor: BunkieColors.light,
       appBar: AppBar(
@@ -130,8 +128,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: EdgeInsets.only(left: 10.0),
                           child: ElevatedButton(
                             style: raisedButtonStyle,
-                            onPressed: () {},
-                            child: Text('+'),
+                            onPressed: () => {
+                              BunkieUtil.navigateToCreateAdPage(
+                                  context, widget.token, widget.userID)
+                            },
+                            child: const Text('+'),
                           ),
                         ),
                         getProfileAdToggleButton(
@@ -151,11 +152,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder: ((context, snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return Text('Loading....');
+                            return const Text('Loading....');
                           default:
-                            if (snapshot.hasError)
+                            if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
-                            else
+                            } else if (snapshot.data!.isNotEmpty) {
                               return Column(
                                 children: [
                                   BunkieProfilePageWidgets.houseAddCard(
@@ -173,6 +174,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                           snapshot.data?["City"])
                                 ],
                               );
+                            } else {
+                              return const Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("There is no ad to show!"));
+                            }
                         }
                       }),
                     ),
