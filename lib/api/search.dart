@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BunkieSearchAPI {
-  static Future<dynamic> getHouseAds(
+  static Future<dynamic> searchHouse(
       BuildContext context, Map<String, dynamic> formData) async {
     try {
       http.Response response;
@@ -45,7 +45,7 @@ class BunkieSearchAPI {
     return Iterable.generate(0);
   }
 
-  static Future<dynamic> getBunkieAds(
+  static Future<dynamic> searchBunkie(
       BuildContext context, Map<String, dynamic> formData) async {
     try {
       http.Response response;

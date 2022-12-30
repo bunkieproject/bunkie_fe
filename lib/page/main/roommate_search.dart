@@ -33,12 +33,12 @@ class RoommateSearchPage extends StatelessWidget {
               SizedBox(height: screenHeight * 0.00625),
               BunkieSearchPageWidgets.getPreferencesButton(
                   screenWidth, "Click to choose your preferences", () {
-                BunkieSearchPageWidgets.getPreferencesPopUp(_preferencesFormKey,
-                    context, screenWidth * 0.9, screenHeight * 0.85);
+                BunkieSearchPageWidgets.getPreferencesPopUp("bunkie", _preferencesFormKey,
+                    context, token, userID, screenWidth * 0.9, screenHeight * 0.85);
               }),
               SizedBox(height: screenHeight * 0.00625),
               FutureBuilder(
-                future: BunkieSearchAPI.getBunkieAds(context, searchForm),
+                future: BunkieSearchAPI.searchBunkie(context, searchForm),
                 builder: ((context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
