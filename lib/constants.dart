@@ -18,7 +18,7 @@ class BunkieText {
 
 class BunkieAddress {
   static const String protocol = "https";
-  static const String host = "gateway-bunkie-9l5d0gmk.nw.gateway.dev";
+  static const String host = "bunkie-backend-foja2uwzca-ey.a.run.app";
   static const String domain = "$protocol://$host";
 
   static String getRoute(String service) {

@@ -39,6 +39,9 @@ class BunkieSearchPageWidgets {
     double height,
   ) {
     _prefFormData.clear();
+    _prefFormData['token'] = token;
+    _prefFormData['user_id'] = userID;
+    _prefFormData['how_many_docs'] = 10;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -179,7 +182,10 @@ class BunkieSearchPageWidgets {
         Container(
             width: width,
             padding: const EdgeInsets.all(25),
-            color: Colors.white,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              color: Colors.white,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -187,7 +193,7 @@ class BunkieSearchPageWidgets {
                 const SizedBox(
                   height: 10,
                 ),
-                _getSpeficiations(each["price"], location,
+                _getSpeficiations(each["price"].toString(), location,
                     each["number_of_rooms"], each["gender_preferred"], ""),
               ],
             )),
@@ -319,7 +325,7 @@ class BunkieSearchPageWidgets {
 
   static String? _lowerPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['upper_price'] = "";
+      _prefFormData['upper_price'] = 9999999;
     } else {
       _prefFormData['upper_price'] = value;
     }
@@ -328,7 +334,7 @@ class BunkieSearchPageWidgets {
 
   static String? _upperPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['lower_price'] = "";
+      _prefFormData['lower_price'] = 0;
     } else {
       _prefFormData['lower_price'] = value;
     }
@@ -337,7 +343,7 @@ class BunkieSearchPageWidgets {
 
   static String? _sizeFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['number_of_rooms'] = "";
+      _prefFormData['number_of_rooms'] = null;
     } else {
       _prefFormData['number_of_rooms'] = value;
     }
@@ -346,7 +352,7 @@ class BunkieSearchPageWidgets {
 
   static String? _genderFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['gender_preferred'] = "";
+      _prefFormData['gender_preferred'] = null;
     } else {
       _prefFormData['gender_preferred'] = value;
     }
@@ -355,7 +361,7 @@ class BunkieSearchPageWidgets {
 
   static String? _schoolFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['school'] = "";
+      _prefFormData['school'] = null;
     } else {
       _prefFormData['school'] = value;
     }
@@ -364,7 +370,7 @@ class BunkieSearchPageWidgets {
 
   static String? _cityFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['city'] = "";
+      _prefFormData['city'] = null;
     } else {
       _prefFormData['city'] = value;
     }
@@ -373,7 +379,7 @@ class BunkieSearchPageWidgets {
 
   static String? _districtFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['district'] = "";
+      _prefFormData['district'] = null;
     } else {
       _prefFormData['district'] = value;
     }
@@ -382,7 +388,7 @@ class BunkieSearchPageWidgets {
 
   static String? _quarterFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['quarter'] = "";
+      _prefFormData['quarter'] = null;
     } else {
       _prefFormData['quarter'] = value;
     }

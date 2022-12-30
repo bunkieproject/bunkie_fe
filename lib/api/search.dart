@@ -9,34 +9,30 @@ class BunkieSearchAPI {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_room_ad_default",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       } else {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_room_ad_preferred",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_preferred")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       }
 
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
-        Iterable responseMap = json.jsonDecode(response.body);
-        return responseMap;
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -50,34 +46,28 @@ class BunkieSearchAPI {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
-       response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_bunkie_default",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+       response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       } else {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_bunkie_preferred",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_preferred")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       }
 
       if (response.statusCode == 200) {
-        Iterable responseMap = json.jsonDecode(response.body);
-        return responseMap;
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
+        }
       }
 
     } catch (e) {
