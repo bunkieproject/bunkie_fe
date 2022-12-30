@@ -19,7 +19,8 @@ class BunkieAuthAPI {
 
         if (response.statusCode == 200) {
           Map<String, dynamic> responseMap = json.jsonDecode(response.body);
-          BunkieUtil.navigateToMainPage(context, responseMap["token"], responseMap["user_id"]);
+          BunkieUtil.navigateToMainPage(
+              context, responseMap["token"], responseMap["user_id"]);
         }
       } catch (e) {
         print(e.toString());
