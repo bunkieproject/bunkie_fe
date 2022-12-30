@@ -2,8 +2,12 @@ import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:app/api/profile.dart';
 import 'package:app/widget/form.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateAdPage extends StatefulWidget {
   final String token;
@@ -17,6 +21,8 @@ class CreateAdPage extends StatefulWidget {
 
 class _CreateAdPageState extends State<CreateAdPage> {
   Map<String, dynamic> _adFormData = Map<String, dynamic>();
+  File? image;
+  List<XFile>? imageFileList = [];
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -61,6 +67,9 @@ class _CreateAdPageState extends State<CreateAdPage> {
                             child: uploadPhotoContainer(formFieldPadding,
                                 "Upload Photo", screenWidth, screenHeight),
                           ),
+                          this.imageFileList!.isNotEmpty
+                              ? const Text("I have picked an image!")
+                              : const Text("No image chosen."),
                           formFieldContainer(formFieldPadding, "Header",
                               screenWidth, _headerValidator),
                           Row(
@@ -220,7 +229,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
     );
   }
 
-  static Container uploadPhotoContainer(
+  Widget uploadPhotoContainer(
       double formFieldPadding, heading, screenWidth, screenHeight) {
     return Container(
         width: screenWidth,
@@ -237,7 +246,25 @@ class _CreateAdPageState extends State<CreateAdPage> {
                   textScaleFactor: BunkieText.large,
                 )),
             BunkieFormWidgets.getSubmitButton(
-              () {},
+              () async {
+                try {
+                  // final image = await ImagePicker()
+                  //     .pickImage(source: ImageSource.gallery);
+                  // if (image == null) return;
+                  // File tempImg = File(image.path);
+                  // setState(() => this.image = tempImg);
+                  final List<XFile> selectedImages =
+                      await ImagePicker().pickMultiImage();
+                  if (selectedImages.isNotEmpty) {
+                    imageFileList!.addAll(selectedImages);
+                  }
+                  print(
+                      "Image List Length:" + imageFileList!.length.toString());
+                  setState(() {});
+                } on PlatformException catch (e) {
+                  print('Failed to pick an image: $e');
+                }
+              },
               screenWidth * 0.3,
               screenHeight * 0.055,
               BunkieColors.dark,
