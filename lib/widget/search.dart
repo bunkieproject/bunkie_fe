@@ -154,4 +154,46 @@ class BunkieSearchPageWidgets {
           ],
         ));
   }
+
+  static Column getHouseAdList(Iterable? adList) {
+    List<Widget> adWidgets = <Widget>[];
+    for (var each in adList!) {
+      adWidgets.add(
+        Container(
+          padding: EdgeInsets.all(15),
+          color: Colors.white,
+          child: Container(
+            
+          ),
+        )
+      );
+    }
+
+    return Column(
+      children: [
+
+      ],
+    );
+  }
+
+  static Column getBunkieAdList(Iterable? adList) {
+    List<Widget> adWidgets = <Widget>[];
+    for (var each in adList!) {
+      adWidgets.add(
+        Container(
+          padding: EdgeInsets.all(15),
+          color: Colors.white,
+          child: Container(
+            
+          ),
+        )
+      );
+    }
+
+    return Column(
+      children: [
+
+      ],
+    );
+  }
 }
