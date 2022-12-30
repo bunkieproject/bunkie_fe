@@ -35,10 +35,7 @@ class BunkieProfileAPI {
       String id, Map<String, dynamic> formData) async {
     formData["token"] = token;
     formData["user_id"] = id;
-    print("am i working?");
-    print(formData);
     try {
-      print("really, am i?");
       var response = await http.post(
         Uri.parse(BunkieAddress.getRoute("ads/create_room_ad")),
         headers: <String, String>{
@@ -46,16 +43,12 @@ class BunkieProfileAPI {
         },
         body: json.jsonEncode(formData),
       );
-      print("what's happenin'!");
-      print(formData);
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> responseMap = json.jsonDecode(response.body);
         // ignore: use_build_context_synchronously
         BunkieUtil.navigateToProfilePage(context, token, id);
       }
     } catch (e) {
-      print("catchy catch");
       print(e.toString());
     }
   }

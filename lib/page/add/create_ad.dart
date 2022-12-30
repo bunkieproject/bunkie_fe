@@ -1,13 +1,10 @@
 import 'package:app/constants.dart';
-import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:app/api/profile.dart';
 import 'package:app/widget/form.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as ImgPackage;
@@ -23,11 +20,12 @@ class CreateAdPage extends StatefulWidget {
 }
 
 class _CreateAdPageState extends State<CreateAdPage> {
-  Map<String, dynamic> _adFormData = Map<String, dynamic>();
+  Map<String, dynamic> _adFormData = <String, dynamic>{};
   final _createAdFormKey = GlobalKey<FormState>();
   File? image;
   List<Uint8List>? imageFileList = [];
   List<String> imageNameList = [];
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -78,7 +76,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
                                         screenHeight,
                                         _photoValidator),
                                   ),
-                                  this.imageFileList!.isNotEmpty
+                                  imageFileList!.isNotEmpty
                                       ? const Text("I have picked an image!")
                                       : const Text("No image chosen."),
                                   formFieldContainer(formFieldPadding, "Header",
@@ -251,14 +249,11 @@ class _CreateAdPageState extends State<CreateAdPage> {
   String? _genderValidator(String? value) {
     if (value!.isEmpty) {
       return "Please specifiy a gender preference";
-    } else if (value != "female" &&
-        value != "Female" &&
-        value != "male" &&
-        value != "Male" &&
-        value != "None" &&
-        value != "none") {
+    } else if (value.toLowerCase() != "female" &&
+        value.toLowerCase() != "male" &&
+        value != "") {
       return "Please specify a gender preference: Female, Male or None";
-    } else {
+    }  else {
       _adFormData['gender_preferred'] = value;
       return null;
     }
@@ -310,9 +305,30 @@ class _CreateAdPageState extends State<CreateAdPage> {
             BunkieFormWidgets.getSubmitButton(
               () async {
                 try {
-                  final List<XFile> selectedImages =
+                  final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  if (image == null) {
+                    return;
+                  } else {
+                    File tempImg = File(image.path);
+                    Uint8List imageAsBytes = tempImg.readAsBytesSync();
+                    final imageAsPackage = ImgPackage.decodeImage(imageAsBytes);
+                    final resizedImage = ImgPackage.copyResize(imageAsPackage!, width: 50);
+                    Uint8List resizedImageAsBytes = Uint8List.fromList(ImgPackage.encodePng(resizedImage));
+                    String imageBase64 = base64.encode(resizedImageAsBytes);
+                    setState(() {
+                      if (!_adFormData.containsKey("header_bytearray")) {
+                        _adFormData["header_bytearray"] = imageBase64;
+                      } else if (!_adFormData.containsKey("other_bytearrays")) {
+                        _adFormData["other_bytearrays"] = imageBase64;
+                      } else {
+                        _adFormData["other_bytearrays"] = "${_adFormData["other_bytearrays"]},$imageBase64";
+                      }
+                      imageFileList?.add(resizedImageAsBytes);
+                      imageNameList.add(image.path);
+                    });
+                  }
+                  /*final selectedImages =
                       await ImagePicker().pickMultiImage();
-                  print(selectedImages.length);
                   setState(() {
                     for (int j = 0; j < selectedImages.length; j++) {
                       File currentImg = File(selectedImages[j].path);
@@ -328,11 +344,14 @@ class _CreateAdPageState extends State<CreateAdPage> {
                         _adFormData["header_bytearray"] = base64string;
                       } else {
                         String base64string = base64.encode(resizedImg);
-                        _adFormData["other_bytearrays"] = ",$base64string";
+                        _adFormData["other_bytearrays"] += base64string;
+                        if (j != selectedImages.length-1) {
+                          _adFormData["other_bytearrays"] += ","; // seperator
+                        }
                       }
                       imageFileList?.add(resizedImg);
                     }
-                  });
+                  });*/
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
                 }
