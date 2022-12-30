@@ -56,12 +56,15 @@ class BunkieSearchPageWidgets {
                           direction: Axis.vertical,
                           children: [
                             _getPriceRow(width, height * 0.075),
-                            _getRow(width, height * 0.075, "House Size", "Size"),
+                            _getRow(
+                                width, height * 0.075, "House Size", "Size"),
                             _getRow(width, height * 0.075, "Gender", "Gender"),
                             _getRow(width, height * 0.075, "School", "School"),
                             _getRow(width, height * 0.075, "City", "City"),
-                            _getRow(width, height * 0.075, "District", "District"),
-                            _getRow(width, height * 0.075, "Quarter", "Quarter"),
+                            _getRow(
+                                width, height * 0.075, "District", "District"),
+                            _getRow(
+                                width, height * 0.075, "Quarter", "Quarter"),
                             BunkieFormWidgets.getSubmitButton(
                                 () {},
                                 width * 0.25,
@@ -155,45 +158,147 @@ class BunkieSearchPageWidgets {
         ));
   }
 
-  static Column getHouseAdList(Iterable? adList) {
-    List<Widget> adWidgets = <Widget>[];
+  static Center getHouseAdList(String token, String userID, double width, Iterable? adList) {
+    List<Widget> houseAdWidgets = <Widget>[];
     for (var each in adList!) {
-      adWidgets.add(
+      String location = each["city"] + each["district"] + each["quarter"];
+      houseAdWidgets.add(
         Container(
-          padding: EdgeInsets.all(15),
-          color: Colors.white,
-          child: Container(
-            
-          ),
-        )
+            width: width,
+            padding: EdgeInsets.all(25),
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _getAdvertisementHeader(each["header"]),
+                SizedBox(
+                  height: 10,
+                ),
+                _getSpeficiations(each["price"], location,
+                    each["number_of_rooms"], each["gender_preferred"], ""),
+              ],
+            )),
       );
+      houseAdWidgets.add(SizedBox(
+        height: 10,
+      ));
     }
+    return Center(child: Column(children: houseAdWidgets));
+  }
 
-    return Column(
-      children: [
+  static Center getBunkieAdList(String token, String userID, double width, Iterable? adList) {
+    List<Widget> bunkieAdWidgets = <Widget>[];
+    for (var each in adList!) {
+      String location = each["city"] + each["district"] + each["quarter"];
+      bunkieAdWidgets.add(
+        Container(
+            width: width,
+            padding: EdgeInsets.all(25),
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _getAdvertisementHeader(each["header"]),
+                SizedBox(
+                  height: 10,
+                ),
+                _getSpeficiations(each["price"], location,
+                    each["number_of_rooms"], each["gender_preferred"], ""),
+                SizedBox(
+                  height: 10,
+                ),
+                _getDescription(each["description"]),
+                SizedBox(
+                  height: 10,
+                ),
+                _getDetailButton(token, userID, each["ad_id"]),
+              ],
+            )),
+      );
+      bunkieAdWidgets.add(SizedBox(
+        height: 10,
+      ));
+    }
+    return Center(child: Column(children: bunkieAdWidgets));
+  }
 
-      ],
+  static Text _getAdvertisementHeader(String header) {
+    return Text(
+      header,
+      textScaleFactor: BunkieText.large,
+      style: const TextStyle(color: BunkieColors.bright),
     );
   }
 
-  static Column getBunkieAdList(Iterable? adList) {
-    List<Widget> adWidgets = <Widget>[];
-    for (var each in adList!) {
-      adWidgets.add(
-        Container(
-          padding: EdgeInsets.all(15),
-          color: Colors.white,
-          child: Container(
-            
+  static Container _getSpeficiations(
+      String price, String loc, String size, String gender, String school) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Specifications",
+              textScaleFactor: BunkieText.medium,
+              style: TextStyle(color: BunkieColors.slate)),
+          SizedBox(
+            height: 10,
           ),
-        )
-      );
-    }
-
-    return Column(
-      children: [
-
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Price: $price", style: TextStyle(color: BunkieColors.dark)),
+              Text("Location: $loc",
+                  style: TextStyle(color: BunkieColors.dark)),
+            ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Size: $size", style: TextStyle(color: BunkieColors.dark)),
+              Text("Gender: $gender",
+                  style: TextStyle(color: BunkieColors.dark))
+            ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text("School: $school", style: TextStyle(color: BunkieColors.dark))
+        ],
+      ),
     );
+  }
+
+  static Container _getDescription(String description) {
+    return Container(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text("Description",
+            textScaleFactor: BunkieText.medium,
+            style: TextStyle(color: BunkieColors.slate)),
+        SizedBox(
+          height: 10,
+        ),
+        Text(description, style: TextStyle(color: BunkieColors.dark)),
+      ]),
+    );
+  }
+
+  static Container _getDetailButton(String token, String userID, String adID) {
+    return Container(
+        padding: EdgeInsets.all(5),
+        child: ElevatedButton(
+            onPressed: () => {
+              // navigate to deatiled Ad Page
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(BunkieColors.bright),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0))),
+            ),
+            child: Text("Detail",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: BunkieColors.dark),
+                textScaleFactor: BunkieText.medium)));;
   }
 }

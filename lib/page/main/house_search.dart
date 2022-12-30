@@ -48,7 +48,8 @@ class HouseSearchPage extends StatelessWidget {
                       return const Text("Error during searching, please try again.");
                     }
                     else {
-                      return BunkieSearchPageWidgets.getHouseAdList(snapshot.data);
+                      return BunkieSearchPageWidgets.getHouseAdList(
+                        token, userID, screenWidth*0.9, snapshot.data);
                     }
                   }
                 })

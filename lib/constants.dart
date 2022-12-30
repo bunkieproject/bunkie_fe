@@ -11,7 +11,7 @@ class BunkieColors {
 }
 
 class BunkieText {
-  static const double medium = 1.0;
+  static const double medium = 1.25;
   static const double large = 1.5;
   static const double small = 0.65;
 }
