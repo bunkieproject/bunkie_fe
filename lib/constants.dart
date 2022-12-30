@@ -11,14 +11,14 @@ class BunkieColors {
 }
 
 class BunkieText {
-  static const double medium = 1.0;
+  static const double medium = 1.25;
   static const double large = 1.5;
   static const double small = 0.65;
 }
 
 class BunkieAddress {
   static const String protocol = "https";
-  static const String host = "gateway-bunkie-9l5d0gmk.nw.gateway.dev";
+  static const String host = "bunkie-backend-foja2uwzca-ey.a.run.app";
   static const String domain = "$protocol://$host";
 
   static String getRoute(String service) {

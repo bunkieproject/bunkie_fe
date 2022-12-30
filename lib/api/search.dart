@@ -1,67 +1,79 @@
 import 'dart:convert' as json;
-import 'package:app/api/util.dart';
 import 'package:app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BunkieSearchAPI {
-  static Future<Column> getHouseAds(BuildContext context,
-      GlobalKey<FormState> formKey, Map<String, String> formData) async {
-    if (formKey.currentState!.validate()) {
-      try {
-        var response = await http.post(
-          Uri.parse(BunkieAddress.getRoute("ads/get_room_ad")),
+  static Future<dynamic> searchHouse(
+      BuildContext context, Map<String, dynamic> formData) async {
+    try {
+      http.Response response;
+      if (!formData.containsKey("lower_price")) {
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: json.jsonEncode(formData),
         );
+      } else {
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_preferred")),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.jsonEncode(formData),
+        );
+      }
 
-        if (response.statusCode == 200) {
-          Map<String, dynamic> responseMap = json.jsonDecode(response.body);
-          // TODO : crate column
-          return Column();
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
         }
-
-        // TODO : crate column
-        return Column();
       }
-      
-      catch (e) {
-        print(e.toString());
-      }
+    } catch (e) {
+      print(e.toString());
     }
 
-    return Column();
+    return Iterable.generate(0);
   }
 
-  static Future<Column> getBunkieAds(BuildContext context,
-      GlobalKey<FormState> formKey, Map<String, String> formData) async {
-    if (formKey.currentState!.validate()) {
-      try {
-        var response = await http.post(
-          Uri.parse(BunkieAddress.getRoute("ads/get_bunkie")),
+  static Future<dynamic> searchBunkie(
+      BuildContext context, Map<String, dynamic> formData) async {
+    try {
+      http.Response response;
+      if (!formData.containsKey("lower_price")) {
+       response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: json.jsonEncode(formData),
         );
+      } else {
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_preferred")),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.jsonEncode(formData),
+        );
+      }
 
-        if (response.statusCode == 200) {
-          Map<String, dynamic> responseMap = json.jsonDecode(response.body);
-          // TODO : crate column
-          return Column();
+      if (response.statusCode == 200) {
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
         }
+      }
 
-        // TODO : crate column
-        return Column();
-      }
-      
-      catch (e) {
-        print(e.toString());
-      }
+    } catch (e) {
+      print(e.toString());
     }
 
-    return Column();
+    return Iterable.generate(0);
   }
 }
