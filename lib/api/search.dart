@@ -4,39 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BunkieSearchAPI {
-  static Future<dynamic> getHouseAds(
+  static Future<dynamic> searchHouse(
       BuildContext context, Map<String, dynamic> formData) async {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_room_ad_default",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       } else {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_room_ad_preferred",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_preferred")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       }
 
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
-        Iterable responseMap = json.jsonDecode(response.body);
-        return responseMap;
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -45,39 +41,33 @@ class BunkieSearchAPI {
     return Iterable.generate(0);
   }
 
-  static Future<dynamic> getBunkieAds(
+  static Future<dynamic> searchBunkie(
       BuildContext context, Map<String, dynamic> formData) async {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
-       response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_bunkie_default",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+       response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       } else {
-        response = await http.get(
-          Uri.https(
-              BunkieAddress.host,
-              "/ads/search_bunkie_preferred",
-              formData.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )),
+        response = await http.post(
+          Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_preferred")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          body: json.jsonEncode(formData),
         );
       }
 
       if (response.statusCode == 200) {
-        Iterable responseMap = json.jsonDecode(response.body);
-        return responseMap;
+        if (response.body != "null") {
+          Iterable responseMap = json.jsonDecode(response.body);
+          return responseMap;
+        }
       }
 
     } catch (e) {
