@@ -65,12 +65,20 @@ class MainPage extends StatelessWidget {
   }
 
   void _navigateToHouseSearchPage(BuildContext context) {
+    Map<String, dynamic> searchForm = <String, dynamic>{};
+    searchForm["token"] = token;
+    searchForm["user_id"] = userID;
+    searchForm["how_many_docs"] = 10;
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HouseSearchPage(token: token, userID: userID)));
+        .push(MaterialPageRoute(builder: (context) => HouseSearchPage(token: token, userID: userID, searchForm: searchForm,)));
   }
 
   void _navigateToRoommateSearchPage(BuildContext context) {
+    Map<String, dynamic> searchForm = <String, dynamic>{};
+    searchForm["token"] = token;
+    searchForm["user_id"] = userID;
+    searchForm["how_many_docs"] = 10;
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage(token: token, userID: userID)));
+        .push(MaterialPageRoute(builder: (context) => RoommateSearchPage(token: token, userID: userID, searchForm: searchForm,)));
   }
 }
