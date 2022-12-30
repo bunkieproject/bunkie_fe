@@ -31,7 +31,32 @@ class BunkieProfileAPI {
     return Map<String, dynamic>();
   }
 
-  // static Future<Map<String, dynamic>> createAdAction(BuildContext context,
-  //     String token, String id, double screenWidth) async {}
-
+  static Future<void> createAdAction(BuildContext context, String token,
+      String id, Map<String, dynamic> formData) async {
+    formData["token"] = token;
+    formData["user_id"] = id;
+    print("am i working?");
+    print(formData);
+    try {
+      print("really, am i?");
+      var response = await http.post(
+        Uri.parse(BunkieAddress.getRoute("ads/create_room_ad")),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.jsonEncode(formData),
+      );
+      print("what's happenin'!");
+      print(formData);
+      print(response.body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseMap = json.jsonDecode(response.body);
+        // ignore: use_build_context_synchronously
+        BunkieUtil.navigateToProfilePage(context, token, id);
+      }
+    } catch (e) {
+      print("catchy catch");
+      print(e.toString());
+    }
+  }
 }
