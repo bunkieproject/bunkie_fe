@@ -2,6 +2,7 @@ import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
+import 'package:app/api/profile.dart';
 
 const List<Widget> ads = <Widget>[
   Text('House Ads',
@@ -17,7 +18,8 @@ const List<Widget> ads = <Widget>[
 class ProfilePage extends StatefulWidget {
   final String token;
   final String userID;
-  const ProfilePage({Key? key, required this.token, required this.userID}) : super(key: key);
+  const ProfilePage({Key? key, required this.token, required this.userID})
+      : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -25,17 +27,22 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final List<bool> _isSelected = <bool>[true, false];
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    Future<Map<String, dynamic>> responseMap =
+        BunkieProfileAPI.getHouseAdAction(
+            context, widget.token, widget.userID, screenWidth);
     return Scaffold(
       backgroundColor: BunkieColors.light,
       appBar: AppBar(
         backgroundColor: BunkieColors.bright,
       ),
-      drawer: BunkieSideBarNavigation(token: widget.token, userID: widget.userID,),
+      drawer: BunkieSideBarNavigation(
+        token: widget.token,
+        userID: widget.userID,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,8 +124,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: ElevatedButton(
+                            style: raisedButtonStyle,
+                            onPressed: () {},
+                            child: Text('+'),
+                          ),
+                        ),
                         getProfileAdToggleButton(
                           _houseAction,
                           screenWidth * 0.5,
@@ -130,11 +145,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         )
                       ],
                     ),
-                    Column(
-                      children: [
-                        houseAddCard(screenWidth, "Header", "Specifications",
-                            4500, "size", "school", "gender", "location"),
-                      ],
+                    FutureBuilder(
+                      future: BunkieProfileAPI.getHouseAdAction(
+                          context, widget.token, widget.userID, screenWidth),
+                      builder: ((context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return Text('Loading....');
+                          default:
+                            if (snapshot.hasError)
+                              return Text('Error: ${snapshot.error}');
+                            else
+                              return Column(
+                                children: [
+                                  BunkieProfilePageWidgets.houseAddCard(
+                                      screenWidth,
+                                      snapshot.data?["Header"],
+                                      "Specifications",
+                                      snapshot.data?["Price"],
+                                      snapshot.data?["NumberOfRooms"],
+                                      snapshot.data?["School"],
+                                      snapshot.data?["GenderPreferred"],
+                                      snapshot.data?["Quarter"] +
+                                          " / " +
+                                          snapshot.data?["District"] +
+                                          " / " +
+                                          snapshot.data?["City"])
+                                ],
+                              );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -191,33 +231,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  }
-
-  Widget houseAddCard(
-      double screenWidth,
-      String header,
-      String specifications,
-      double price,
-      String size,
-      String school,
-      String gender,
-      String location) {
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ClipRRect(
-            // ignore: prefer_const_constructors
-            child: Container(
-          width: screenWidth * 0.75,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            color: BunkieColors.slate,
-          ),
-          child: Column(
-            children: [
-              BunkieProfilePageWidgets.houseAddInfoBox(screenWidth, header,
-                  specifications, price, size, school, gender, location),
-            ],
-          ),
-        )));
   }
 }

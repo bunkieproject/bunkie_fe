@@ -16,7 +16,7 @@ class BunkieText {
   static const double small = 0.65;
 }
 
-class BunkieAddress{
+class BunkieAddress {
   static const String protocol = "https";
   static const String host = "bunkie-gateway-9l5d0gmk.nw.gateway.dev";
   static const String domain = "$protocol://$host";
@@ -25,3 +25,10 @@ class BunkieAddress{
     return "$domain/$service";
   }
 }
+
+final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+  backgroundColor: BunkieColors.slate,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(50)),
+  ),
+);

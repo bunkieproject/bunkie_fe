@@ -118,4 +118,28 @@ class BunkieProfilePageWidgets {
       ]),
     );
   }
+
+  static Padding houseAddCard(
+      double screenWidth,
+      String header,
+      String specifications,
+      double price,
+      String size,
+      String school,
+      String gender,
+      String location) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ClipRRect(
+            // ignore: prefer_const_constructors
+            child: Container(
+          width: screenWidth * 0.75,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            color: BunkieColors.slate,
+          ),
+          child: houseAddInfoBox(screenWidth, header, specifications, price,
+              size, school, gender, location),
+        )));
+  }
 }
