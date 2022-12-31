@@ -26,51 +26,14 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-// FutureBuilder(
-//                       future: BunkieProfileAPI.getHouseAdAction(
-//                           context, widget.token, widget.userID, screenWidth),
-//                       builder: ((context, snapshot) {
-//                         switch (snapshot.connectionState) {
-//                           case ConnectionState.waiting:
-//                             return const Text('Loading....');
-//                           default:
-//                             if (snapshot.hasError) {
-//                               return Text('Error: ${snapshot.error}');
-//                             } else if (snapshot.data!.isNotEmpty) {
-//                               return Column(
-//                                 children: [
-//                                   BunkieProfilePageWidgets.houseAddCard(
-//                                       screenWidth,
-//                                       snapshot.data?["Header"],
-//                                       "Specifications",
-//                                       snapshot.data?["Price"],
-//                                       snapshot.data?["NumberOfRooms"],
-//                                       snapshot.data?["School"],
-//                                       snapshot.data?["GenderPreferred"],
-//                                       snapshot.data?["Quarter"] +
-//                                           " / " +
-//                                           snapshot.data?["District"] +
-//                                           " / " +
-//                                           snapshot.data?["City"])
-//                                 ],
-//                               );
-//                             } else {
-//                               return const Padding(
-//                                   padding: EdgeInsets.all(10),
-//                                   child: Text("There is no ad to show!"));
-//                             }
-//                         }
-//                       }),
-//                     ),
-
 class _ProfilePageState extends State<ProfilePage> {
   final List<bool> _isSelected = <bool>[true, false];
+  String adType = "room_ads";
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    List<Widget> houseAdWidgets = <Widget>[];
     return Scaffold(
         backgroundColor: BunkieColors.light,
         appBar: AppBar(
@@ -228,8 +191,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             )
                                           ],
                                         ),
-                                        _adValidator(snapshot.data?['room_ads'],
-                                            screenWidth)
+                                        _adValidator(snapshot.data?[adType],
+                                            screenWidth),
                                       ],
                                     ),
                                   ),
@@ -279,6 +242,11 @@ class _ProfilePageState extends State<ProfilePage> {
             for (int i = 0; i < _isSelected.length; i++) {
               _isSelected[i] = i == index;
             }
+            if (index == 0) {
+              adType = "room_ads";
+            } else {
+              adType = "bunkie_ads";
+            }
           });
         },
         isSelected: _isSelected,
@@ -320,6 +288,8 @@ class _ProfilePageState extends State<ProfilePage> {
       ));
     } else {
       for (var each in value) {
+        print("haha");
+        print(each);
         houseAd.add(Column(
           children: [
             BunkieProfilePageWidgets.houseAddCard(
