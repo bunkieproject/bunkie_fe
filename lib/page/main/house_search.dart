@@ -38,19 +38,18 @@ class HouseSearchPage extends StatelessWidget {
               }),
               SizedBox(height: screenHeight * 0.00625),
               FutureBuilder(
-                future: BunkieSearchAPI.searchHouse(context, searchForm),
+                future: BunkieSearchAPI.searchHouse(searchForm),
                 builder: ((context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return const Text("Loading....");
                     default:
-                    if (snapshot.hasError) {
-                      return const Text("Error during searching, please try again.");
-                    }
-                    else {
-                      return BunkieSearchPageWidgets.getHouseAdList(
-                        token, userID, screenWidth*0.9, snapshot.data);
-                    }
+                      if (snapshot.hasError) {
+                        return const Text("Error during searching, please try again.");
+                      } else {
+                        return BunkieSearchPageWidgets.getHouseAdList(
+                          context, token, userID, screenWidth*0.9, snapshot.data);
+                      }
                   }
                 })
               )

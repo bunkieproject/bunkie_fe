@@ -66,27 +66,34 @@ class BunkieSearchPageWidgets {
                           direction: Axis.vertical,
                           children: [
                             _getPriceRow(width, height * 0.075),
-                            _getRow(width, height * 0.075, "Size", "House size", _sizeFormValidator),
-                            _getRow(width, height * 0.075, "Gender", "Preferred gender to live with", _genderFormValidator),
-                            _getRow(width, height * 0.075, "School", "Preferred school", _schoolFormValidator),
-                            _getRow(width, height * 0.075, "City", "Preferred city", _cityFormValidator),
-                            _getRow(width, height * 0.075, "District", "Preferred district", _districtFormValidator),
-                            _getRow(width, height * 0.075, "Quarter", "Preferred quarter", _quarterFormValidator),
-                            BunkieFormWidgets.getSubmitButton(
-                                () {
-                                  if (formKey.currentState!.validate()) {
-                                    if (houseOrBunkie.toLowerCase() == "house") {
-                                      BunkieUtil.navigateToHouseSearchPage(context, token, userID, _prefFormData);
-                                    } else {
-                                      BunkieUtil.navigateToBunkieSearchPage(context, token, userID, _prefFormData);
-                                    }
-                                  }
-                                },
-                                width * 0.25,
-                                height * 0.05,
-                                BunkieColors.bright,
-                                "Search",
-                                BunkieColors.light)
+                            _getRow(width, height * 0.075, "Size", "House size",
+                                _sizeFormValidator),
+                            _getRow(
+                                width,
+                                height * 0.075,
+                                "Gender",
+                                "Preferred gender to live with",
+                                _genderFormValidator),
+                            _getRow(width, height * 0.075, "School",
+                                "Preferred school", _schoolFormValidator),
+                            _getRow(width, height * 0.075, "City",
+                                "Preferred city", _cityFormValidator),
+                            _getRow(width, height * 0.075, "District",
+                                "Preferred district", _districtFormValidator),
+                            _getRow(width, height * 0.075, "Quarter",
+                                "Preferred quarter", _quarterFormValidator),
+                            BunkieFormWidgets.getSubmitButton(() {
+                              if (formKey.currentState!.validate()) {
+                                if (houseOrBunkie.toLowerCase() == "house") {
+                                  BunkieUtil.navigateToHouseSearchPage(
+                                      context, token, userID, _prefFormData);
+                                } else {
+                                  BunkieUtil.navigateToBunkieSearchPage(
+                                      context, token, userID, _prefFormData);
+                                }
+                              }
+                            }, width * 0.25, height * 0.05, BunkieColors.bright,
+                                "Search", BunkieColors.light)
                           ],
                         )))),
             contentTextStyle: const TextStyle(color: BunkieColors.slate),
@@ -107,8 +114,8 @@ class BunkieSearchPageWidgets {
         ));
   }
 
-  static SizedBox _getDefaultTextFormField(
-      double width, double height, String placeholder, String? Function(String?) validator) {
+  static SizedBox _getDefaultTextFormField(double width, double height,
+      String placeholder, String? Function(String?) validator) {
     return SizedBox(
       width: width,
       height: height,
@@ -142,7 +149,8 @@ class BunkieSearchPageWidgets {
             SizedBox(
               width: width * 0.025,
             ),
-            _getDefaultTextFormField(width * 0.25, height * 0.5, "Lower Limit", _lowerPriceFormValidator),
+            _getDefaultTextFormField(width * 0.25, height * 0.5, "Lower Limit",
+                _lowerPriceFormValidator),
             SizedBox(
               width: width * 0.0125,
             ),
@@ -150,13 +158,14 @@ class BunkieSearchPageWidgets {
             SizedBox(
               width: width * 0.0125,
             ),
-            _getDefaultTextFormField(width * 0.25, height * 0.5, "Upper Limit", _upperPriceFormValidator)
+            _getDefaultTextFormField(width * 0.25, height * 0.5, "Upper Limit",
+                _upperPriceFormValidator)
           ],
         ));
   }
 
-  static SizedBox _getRow(
-      double width, double height, String label, String placeholder, String? Function(String?) validator) {
+  static SizedBox _getRow(double width, double height, String label,
+      String placeholder, String? Function(String?) validator) {
     return SizedBox(
         width: width,
         height: height,
@@ -168,36 +177,38 @@ class BunkieSearchPageWidgets {
             SizedBox(
               width: width * 0.025,
             ),
-            _getDefaultTextFormField(width * 0.35, height * 0.5, placeholder, validator)
+            _getDefaultTextFormField(
+                width * 0.35, height * 0.5, placeholder, validator)
           ],
         ));
   }
 
-  static Center getHouseAdList(
-      String token, String userID, double width, Iterable? adList) {
+  static Center getHouseAdList(BuildContext context, String token,
+      String userID, double width, Iterable? adList) {
     List<Widget> houseAdWidgets = <Widget>[];
     for (var each in adList!) {
-      String location = each["city"] + each["district"] + each["quarter"];
-      houseAdWidgets.add(
-        Container(
-            width: width,
-            padding: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              color: Colors.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _getAdvertisementHeader(each["header"]),
-                const SizedBox(
-                  height: 10,
-                ),
-                _getSpeficiations(each["price"].toString(), location,
-                    each["number_of_rooms"], each["gender_preferred"], ""),
-              ],
-            )),
-      );
+      houseAdWidgets.add(Container(
+          width: width,
+          padding: const EdgeInsets.all(25),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.white70,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _getAdvertisementHeader(each["header"]),
+              const SizedBox(
+                height: 10,
+              ),
+              _getSpeficiations(each["price"].toString(), each["city"],
+                  each["number_of_rooms"], each["gender_preferred"], each["school"]),
+              const SizedBox(
+                height: 10,
+              ),
+              _getDetailButton("house", context, token, userID, each["ad_id"]),
+            ],
+          )));
       houseAdWidgets.add(const SizedBox(
         height: 10,
       ));
@@ -205,36 +216,32 @@ class BunkieSearchPageWidgets {
     return Center(child: Column(children: houseAdWidgets));
   }
 
-  static Center getBunkieAdList(
-      String token, String userID, double width, Iterable? adList) {
+  static Center getBunkieAdList(BuildContext context, String token,
+      String userID, double width, Iterable? adList) {
     List<Widget> bunkieAdWidgets = <Widget>[];
     for (var each in adList!) {
-      String location = each["city"] + each["district"] + each["quarter"];
-      bunkieAdWidgets.add(
-        Container(
-            width: width,
-            padding: const EdgeInsets.all(25),
+      bunkieAdWidgets.add(Container(
+          width: width,
+          padding: const EdgeInsets.all(25),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
             color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _getAdvertisementHeader(each["header"]),
-                const SizedBox(
-                  height: 10,
-                ),
-                _getSpeficiations(each["price"], location,
-                    each["number_of_rooms"], each["gender_preferred"], ""),
-                const SizedBox(
-                  height: 10,
-                ),
-                _getDescription(each["description"]),
-                const SizedBox(
-                  height: 10,
-                ),
-                _getDetailButton(token, userID, each["ad_id"]),
-              ],
-            )),
-      );
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _getAdvertisementHeader(each["header"]),
+              const SizedBox(
+                height: 10,
+              ),
+              _getSpeficiations(each["price"].toString(), each["city"],
+                  each["number_of_rooms"], each["gender_preferred"], each["school"]),
+              const SizedBox(
+                height: 10,
+              ),
+              _getDetailButton("bunkie", context, token, userID, each["ad_id"]),
+            ],
+          )));
       bunkieAdWidgets.add(const SizedBox(
         height: 10,
       ));
@@ -265,7 +272,8 @@ class BunkieSearchPageWidgets {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Price: $price", style: const TextStyle(color: BunkieColors.dark)),
+              Text("Price: $price",
+                  style: const TextStyle(color: BunkieColors.dark)),
               Text("Location: $loc",
                   style: const TextStyle(color: BunkieColors.dark)),
             ],
@@ -276,7 +284,8 @@ class BunkieSearchPageWidgets {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Size: $size", style: const TextStyle(color: BunkieColors.dark)),
+              Text("Size: $size",
+                  style: const TextStyle(color: BunkieColors.dark)),
               Text("Gender: $gender",
                   style: const TextStyle(color: BunkieColors.dark))
             ],
@@ -284,7 +293,8 @@ class BunkieSearchPageWidgets {
           const SizedBox(
             height: 5,
           ),
-          Text("School: $school", style: const TextStyle(color: BunkieColors.dark))
+          Text("School: $school",
+              style: const TextStyle(color: BunkieColors.dark))
         ],
       ),
     );
@@ -304,21 +314,34 @@ class BunkieSearchPageWidgets {
     );
   }
 
-  static Container _getDetailButton(String token, String userID, String adID) {
+  static Container _getDetailButton(String adType, BuildContext context,
+      String token, String userID, String adID) {
+    var getAdDetailForm;
+    getAdDetailForm = <String, dynamic>{"ad_id": adID};
     return Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(5),
         child: ElevatedButton(
             onPressed: () => {
-                  // navigate to deatiled Ad Page
+                  if (adType.toLowerCase() == "house")
+                    {
+                      BunkieUtil.navigateToDetailedHouseAdPage(
+                          context, token, userID, getAdDetailForm)
+                    }
+                  else
+                    {
+                      BunkieUtil.navigateToDetailedBunkieAdPage(
+                          context, token, userID, getAdDetailForm)
+                    }
                 },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(BunkieColors.bright),
+              backgroundColor: MaterialStateProperty.all(Color.lerp(BunkieColors.bright, BunkieColors.slate, 0.55)),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0))),
             ),
-            child: const Text("Detail",
+            child: const Text("Click for detail",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: BunkieColors.dark),
+                style: TextStyle(color: BunkieColors.light),
                 textScaleFactor: BunkieText.medium)));
     ;
   }

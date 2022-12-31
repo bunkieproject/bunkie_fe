@@ -1,11 +1,9 @@
 import 'dart:convert' as json;
 import 'package:app/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BunkieSearchAPI {
-  static Future<dynamic> searchHouse(
-      BuildContext context, Map<String, dynamic> formData) async {
+  static Future<dynamic> searchHouse(Map<String, dynamic> formData) async {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
@@ -26,8 +24,6 @@ class BunkieSearchAPI {
         );
       }
 
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 200) {
         if (response.body != "null") {
           Iterable responseMap = json.jsonDecode(response.body);
@@ -41,8 +37,7 @@ class BunkieSearchAPI {
     return Iterable.generate(0);
   }
 
-  static Future<dynamic> searchBunkie(
-      BuildContext context, Map<String, dynamic> formData) async {
+  static Future<dynamic> searchBunkie(Map<String, dynamic> formData) async {
     try {
       http.Response response;
       if (!formData.containsKey("lower_price")) {
