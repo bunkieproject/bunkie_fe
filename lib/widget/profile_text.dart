@@ -31,22 +31,24 @@ class BunkieProfilePageWidgets {
     );
   }
 
-  static Padding lightStyle(String key, String value) {
+  static Padding lightStyle(String key, String value, screenWidth) {
     return Padding(
         padding: EdgeInsets.only(top: 5, left: 5),
-        child: Text(
-          key,
-          textAlign: TextAlign.left,
-          style: TextStyle(color: BunkieColors.light),
-          textScaleFactor: BunkieText.small,
-        ));
+        child: Container(
+            width: screenWidth * 0.2,
+            child: Text(
+              "$key: $value",
+              textAlign: TextAlign.left,
+              style: TextStyle(color: BunkieColors.light),
+              textScaleFactor: BunkieText.small,
+            )));
   }
 
   static Container houseAddInfoBox(
       double screenWidth,
       String header,
       String specifications,
-      double price,
+      String price,
       String size,
       String school,
       String gender,
@@ -62,7 +64,7 @@ class BunkieProfilePageWidgets {
               // HEADER
               child: Text(header,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: BunkieColors.light,
                   ),
                   textScaleFactor: BunkieText.large)),
@@ -74,43 +76,27 @@ class BunkieProfilePageWidgets {
               // SPECIFICATIONS
               child: Text(specifications,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: BunkieColors.light,
                   ),
                   textScaleFactor: BunkieText.medium)),
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: lightStyle("Price:", price.toString()),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: lightStyle("Size:", size),
-                ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: lightStyle("School:", school))
+                lightStyle("Price", price.toString(), screenWidth),
+                lightStyle("Size", size, screenWidth),
+                lightStyle("School", school, screenWidth)
               ],
             ),
             Padding(
-                padding: EdgeInsets.only(left: screenWidth / 2 * 0.3),
+                padding: EdgeInsets.all(5),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: lightStyle("Price:", price.toString()),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: lightStyle("Size:", size),
-                    )
+                    lightStyle("Location", location, screenWidth),
+                    lightStyle("Gender", gender, screenWidth),
                   ],
                 ))
           ],
@@ -123,7 +109,7 @@ class BunkieProfilePageWidgets {
       double screenWidth,
       String header,
       String specifications,
-      double price,
+      String price,
       String size,
       String school,
       String gender,
