@@ -1,3 +1,5 @@
+import 'package:app/page/ad/bunkie_ad.dart';
+import 'package:app/page/ad/house_ad.dart';
 import 'package:app/page/authentication/forgotten_password.dart';
 import 'package:app/page/authentication/login.dart';
 import 'package:app/page/authentication/register.dart';
@@ -68,6 +70,30 @@ class BunkieUtil {
               token: token,
               userID: userID,
               searchForm: searchForm,
+            )));
+  }
+
+  static void navigateToDetailedHouseAdPage(
+      BuildContext context, String token, String userID, Map<String, dynamic> getAdDetailForm) {
+    getAdDetailForm["token"] = token;
+    getAdDetailForm["user_id"] = userID;
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DetailedHouseAdPage(
+              token: token,
+              userID: userID,
+              getAdDetailForm: getAdDetailForm,
+            )));
+  }
+
+  static void navigateToDetailedBunkieAdPage(
+      BuildContext context, String token, String userID, Map<String, dynamic> getAdDetailForm) {
+    getAdDetailForm["token"] = token;
+    getAdDetailForm["user_id"] = userID;
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DetailedBunkieAdPage(
+              token: token,
+              userID: userID,
+              getAdDetailForm: getAdDetailForm,
             )));
   }
 }

@@ -38,7 +38,7 @@ class RoommateSearchPage extends StatelessWidget {
               }),
               SizedBox(height: screenHeight * 0.00625),
               FutureBuilder(
-                future: BunkieSearchAPI.searchBunkie(context, searchForm),
+                future: BunkieSearchAPI.searchBunkie(searchForm),
                 builder: ((context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -49,7 +49,7 @@ class RoommateSearchPage extends StatelessWidget {
                     }
                     else {
                       return BunkieSearchPageWidgets.getBunkieAdList(
-                        token, userID, screenWidth*0.9, snapshot.data);
+                        context, token, userID, screenWidth*0.9, snapshot.data);
                     }
                   }
                 })
