@@ -25,6 +25,19 @@ class BunkieFormWidgets {
         validator: validator);
   }
 
+  static TextFormField getTextFormFieldIconless(
+      bool isObscure, String? labelText, String? Function(String?)? validator) {
+    return TextFormField(
+        obscureText: isObscure,
+        decoration: InputDecoration(
+            filled: true,
+            fillColor: BunkieColors.light,
+            labelText: labelText,
+            border: const UnderlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.5)))),
+        validator: validator);
+  }
+
   static SizedBox getSubmitButton(void Function()? onPressed, double width,
       double height, Color backgroundColor, String text, Color textColor) {
     return SizedBox(
