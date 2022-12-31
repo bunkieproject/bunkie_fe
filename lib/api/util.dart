@@ -71,13 +71,4 @@ class BunkieUtil {
               searchForm: searchForm,
             )));
   }
-
-  static void navigateToCreateAdPage(
-      BuildContext context, String token, String userID) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CreateAdPage(
-              token: token,
-              userID: userID,
-            )));
-  }
 }
