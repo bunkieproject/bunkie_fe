@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/api/util.dart';
 import 'package:app/constants.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,8 @@ class BunkieDetailedAdWidgets {
           const SizedBox(
             height: 25,
           ),
-          _getVisitButton(context, token, userID, adDetail["user_id"], adDetail["ad_id"]),
+          _getVisitButton(
+              context, token, userID, adDetail["user_id"], adDetail["ad_id"]),
           const SizedBox(
             height: 25,
           ),
@@ -29,7 +32,15 @@ class BunkieDetailedAdWidgets {
               adDetail["gender_preferred"],
               adDetail["school"]),
           const SizedBox(
-            height: 25,
+            height: 12.5,
+          ),
+          const Divider(
+            indent: 50,
+            endIndent: 50,
+            color: BunkieColors.slate,
+          ),
+          const SizedBox(
+            height: 12.5,
           ),
           _getDescription(adDetail["description"]),
         ]));
@@ -46,7 +57,8 @@ class BunkieDetailedAdWidgets {
           const SizedBox(
             height: 25,
           ),
-          _getVisitButton(context, token, userID, adDetail["user_id"], adDetail["ad_id"]),
+          _getVisitButton(
+              context, token, userID, adDetail["user_id"], adDetail["ad_id"]),
           const SizedBox(
             height: 25,
           ),
@@ -57,7 +69,15 @@ class BunkieDetailedAdWidgets {
               adDetail["gender_preferred"],
               adDetail["school"]),
           const SizedBox(
-            height: 25,
+            height: 12.5,
+          ),
+          const Divider(
+            indent: 50,
+            endIndent: 50,
+            color: BunkieColors.slate,
+          ),
+          const SizedBox(
+            height: 12.5,
           ),
           _getDescription(adDetail["description"]),
         ]));
@@ -75,8 +95,8 @@ class BunkieDetailedAdWidgets {
     return Container();
   }
 
-  static Container _getVisitButton(
-      BuildContext context, String token, String userID, String ownerID, String adID) {
+  static Container _getVisitButton(BuildContext context, String token,
+      String userID, String ownerID, String adID) {
     Map<String, dynamic> getDisplayProfileForm;
     getDisplayProfileForm = <String, dynamic>{"user_id": adID};
     return Container(
@@ -103,48 +123,68 @@ class BunkieDetailedAdWidgets {
   static Container _getSpeficiations(
       String price, String loc, String size, String gender, String school) {
     return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Specifications",
-              textScaleFactor: BunkieText.large,
-              style: TextStyle(color: BunkieColors.slate)),
+        padding: const EdgeInsets.all(15),
+        child: Column(children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("Specifications",
+                textScaleFactor: BunkieText.large,
+                style: TextStyle(color: BunkieColors.slate)),
+          ),
           const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Price: $price",
-                  style: const TextStyle(color: BunkieColors.dark)),
-              Text("Location: $loc",
-                  style: const TextStyle(color: BunkieColors.dark)),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                SizedBox(
+                  width: 150,
+                  child: Text("Price: $price TL",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                ),
+                const SizedBox(
+                  height: 7.5,
+                ),
+                SizedBox(
+                  width: 150,
+                  child: Text("Size: $size",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                ),
+                const SizedBox(
+                  height: 7.5,
+                ),
+                SizedBox(
+                  width: 150,
+                  child: Text("School: $school",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                ),
+              ]),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                SizedBox(
+                  width: 150,
+                  child: Text("Location: $loc",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                ),
+                const SizedBox(
+                  height: 7.5,
+                ),
+                SizedBox(
+                  width: 150,
+                  child: Text("Gender: $gender",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                ),
+              ]),
             ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Size: $size",
-                  style: const TextStyle(color: BunkieColors.dark)),
-              Text("Gender: $gender",
-                  style: const TextStyle(color: BunkieColors.dark))
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text("School: $school",
-              style: const TextStyle(color: BunkieColors.dark))
-        ],
-      ),
-    );
+          )
+        ]));
   }
 
   static Container _getDescription(String description) {
     return Container(
+      padding: const EdgeInsets.all(15),
+      alignment: Alignment.centerLeft,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text("Description",
             textScaleFactor: BunkieText.large,

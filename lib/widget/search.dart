@@ -187,6 +187,7 @@ class BunkieSearchPageWidgets {
       String userID, double width, Iterable? adList) {
     List<Widget> houseAdWidgets = <Widget>[];
     for (var each in adList!) {
+      String location = "${each["city"]}, ${each["district"]}, ${each["quarter"]}";
       houseAdWidgets.add(Container(
           width: width,
           padding: const EdgeInsets.all(25),
@@ -201,7 +202,7 @@ class BunkieSearchPageWidgets {
               const SizedBox(
                 height: 10,
               ),
-              _getSpeficiations(each["price"].toString(), each["city"],
+              _getSpeficiations(each["price"].toString(), location,
                   each["number_of_rooms"], each["gender_preferred"], each["school"]),
               const SizedBox(
                 height: 10,
@@ -220,6 +221,7 @@ class BunkieSearchPageWidgets {
       String userID, double width, Iterable? adList) {
     List<Widget> bunkieAdWidgets = <Widget>[];
     for (var each in adList!) {
+      String location = "${each["city"]}, ${each["district"]}, ${each["quarter"]}";
       bunkieAdWidgets.add(Container(
           width: width,
           padding: const EdgeInsets.all(25),
@@ -232,12 +234,16 @@ class BunkieSearchPageWidgets {
             children: [
               _getAdvertisementHeader(each["header"]),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
-              _getSpeficiations(each["price"].toString(), each["city"],
+              _getSpeficiations(each["price"].toString(), location,
                   each["number_of_rooms"], each["gender_preferred"], each["school"]),
               const SizedBox(
-                height: 10,
+                height: 15,
+              ),
+              _getDescription(each["description"]),
+              const SizedBox(
+                height: 15,
               ),
               _getDetailButton("bunkie", context, token, userID, each["ad_id"]),
             ],
@@ -261,42 +267,62 @@ class BunkieSearchPageWidgets {
       String price, String loc, String size, String gender, String school) {
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Specifications",
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("Specifications",
               textScaleFactor: BunkieText.medium,
               style: TextStyle(color: BunkieColors.slate)),
+          ),
           const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Price: $price",
-                  style: const TextStyle(color: BunkieColors.dark)),
-              Text("Location: $loc",
-                  style: const TextStyle(color: BunkieColors.dark)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: Text("Price: $price TL",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                  ),
+                  const SizedBox(height: 7.5,),
+                  SizedBox(
+                    width: 150,
+                    child: Text("Size: $size",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                  ),
+                  const SizedBox(height: 7.5,),
+                  SizedBox(
+                    width: 150,
+                    child: Text("School: $school",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                  ),
+                ]
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: Text("Location: $loc",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                  ),
+                  const SizedBox(height: 7.5,),
+                  SizedBox(
+                    width: 150,
+                    child: Text("Gender: $gender",
+                      style: const TextStyle(color: BunkieColors.dark)),
+                  ),
+                ]
+              ),
             ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Size: $size",
-                  style: const TextStyle(color: BunkieColors.dark)),
-              Text("Gender: $gender",
-                  style: const TextStyle(color: BunkieColors.dark))
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text("School: $school",
-              style: const TextStyle(color: BunkieColors.dark))
-        ],
-      ),
+          )
+        ]
+      )
     );
   }
 
