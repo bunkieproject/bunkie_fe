@@ -28,7 +28,13 @@ class BunkieAddress {
 }
 
 final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  backgroundColor: BunkieColors.slate,
+    backgroundColor: BunkieColors.slate,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(50)),
+    ));
+
+final ButtonStyle editButtonStyle = ElevatedButton.styleFrom(
+  backgroundColor: BunkieColors.bright,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(50)),
   ),

@@ -253,7 +253,7 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
         value.toLowerCase() != "male" &&
         value != "") {
       return "Please specify a gender preference: Female, Male or None";
-    }  else {
+    } else {
       _adFormData['gender_preferred'] = value;
       return null;
     }
@@ -295,25 +295,28 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-                padding: EdgeInsets.only(top: 5, left: 5),
+                padding: const EdgeInsets.only(top: 5, left: 5),
                 child: Text(
                   heading,
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: BunkieColors.light),
+                  style: const TextStyle(color: BunkieColors.light),
                   textScaleFactor: BunkieText.large,
                 )),
             BunkieFormWidgets.getSubmitButton(
               () async {
                 try {
-                  final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  final image = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
                   if (image == null) {
                     return;
                   } else {
                     File tempImg = File(image.path);
                     Uint8List imageAsBytes = tempImg.readAsBytesSync();
                     final imageAsPackage = ImgPackage.decodeImage(imageAsBytes);
-                    final resizedImage = ImgPackage.copyResize(imageAsPackage!, width: 50);
-                    Uint8List resizedImageAsBytes = Uint8List.fromList(ImgPackage.encodePng(resizedImage));
+                    final resizedImage =
+                        ImgPackage.copyResize(imageAsPackage!, width: 50);
+                    Uint8List resizedImageAsBytes =
+                        Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);
                     setState(() {
                       if (!_adFormData.containsKey("header_bytearray")) {
@@ -321,7 +324,8 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
                       } else if (!_adFormData.containsKey("other_bytearrays")) {
                         _adFormData["other_bytearrays"] = imageBase64;
                       } else {
-                        _adFormData["other_bytearrays"] = "${_adFormData["other_bytearrays"]},$imageBase64";
+                        _adFormData["other_bytearrays"] =
+                            "${_adFormData["other_bytearrays"]},$imageBase64";
                       }
                       imageFileList?.add(resizedImageAsBytes);
                       imageNameList.add(image.path);

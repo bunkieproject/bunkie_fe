@@ -9,17 +9,19 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as ImgPackage;
 
-class CreateAdPage extends StatefulWidget {
+bool? checkedValue = false;
+
+class EditProfilePage extends StatefulWidget {
   final String token;
   final String userID;
-  const CreateAdPage({Key? key, required this.token, required this.userID})
+  const EditProfilePage({Key? key, required this.token, required this.userID})
       : super(key: key);
 
   @override
-  _CreateAdPageState createState() => _CreateAdPageState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _CreateAdPageState extends State<CreateAdPage> {
+class _EditProfilePageState extends State<EditProfilePage> {
   Map<String, dynamic> _profileData = <String, dynamic>{};
   final _createAdFormKey = GlobalKey<FormState>();
   File? image;
@@ -30,6 +32,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    _profileData["profile_info"] = <String, dynamic>{};
     double formFieldPadding = 15;
     return Scaffold(
         backgroundColor: BunkieColors.light,
@@ -73,8 +76,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
                                         formFieldPadding,
                                         "Upload Photo",
                                         screenWidth,
-                                        screenHeight,
-                                        _photoValidator),
+                                        screenHeight),
                                   ),
                                   imageFileList!.isNotEmpty
                                       ? const Text("I have picked an image!")
@@ -100,6 +102,33 @@ class _CreateAdPageState extends State<CreateAdPage> {
                                           _genderValidator),
                                     ],
                                   ),
+                                  formFieldContainer(formFieldPadding, "Phone",
+                                      screenWidth * 0.95, _phoneValidator),
+                                  Container(
+                                    margin: EdgeInsets.all(formFieldPadding),
+                                    width: screenWidth * 0.85,
+                                    decoration: const BoxDecoration(
+                                        color: BunkieColors.light,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: CheckboxListTile(
+                                      title: const Text(
+                                          "Display phone on the profile?",
+                                          style: TextStyle(
+                                              color: BunkieColors.slate)),
+                                      value: checkedValue,
+                                      checkColor: BunkieColors
+                                          .dark, // color of tick Mark
+                                      activeColor: BunkieColors.bright,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValue = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10, bottom: 20),
@@ -107,7 +136,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
                                       () {
                                         if (_createAdFormKey.currentState!
                                             .validate()) {
-                                          BunkieProfileAPI.createAdAction(
+                                          BunkieProfileAPI.editProfileAction(
                                               context,
                                               widget.token,
                                               widget.userID,
@@ -130,39 +159,46 @@ class _CreateAdPageState extends State<CreateAdPage> {
 
   String? _nameValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give an email";
+      return null;
     } else {
-      _profileData['fullName'] = value;
+      _profileData['profile_info']['name'] = value;
       return null;
     }
   }
 
   String? _descriptionValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a price";
+      return null;
     } else {
-      _profileData['description'] = value;
+      _profileData['profile_info']['description'] = value;
       return null;
     }
   }
 
-  String? _photoValidator(List<XFile>? imageFileList) {
-    if (imageFileList!.isEmpty) {
-      return "Please select an image.";
+  String? _phoneValidator(String? value) {
+    if (value!.isEmpty) {
+      _profileData['profile_info']['phone'] = "Not specified.";
+      return null;
+    } else if (checkedValue == false) {
+      _profileData['profile_info']['phone'] = "Not specified.";
+      _profileData['profile_info']['display_phone'] = false;
+      return null;
     } else {
+      _profileData['profile_info']['phone'] = value;
+      _profileData['profile_info']['display_phone'] = true;
       return null;
     }
   }
 
   String? _genderValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please specifiy a gender preference";
+      return null;
     } else if (value.toLowerCase() != "female" &&
         value.toLowerCase() != "male" &&
         value != "") {
       return "Please specify a gender preference: Female, Male or None";
     } else {
-      _profileData['gender_preferred'] = value;
+      _profileData['profile_info']['gender'] = value;
       return null;
     }
   }
@@ -195,7 +231,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
   }
 
   Widget uploadPhotoContainer(
-      double formFieldPadding, heading, screenWidth, screenHeight, validator) {
+      double formFieldPadding, heading, screenWidth, screenHeight) {
     return Container(
         width: screenWidth,
         padding: EdgeInsets.all(formFieldPadding),
@@ -203,7 +239,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-                padding: EdgeInsets.only(top: 5, left: 5),
+                padding: const EdgeInsets.only(top: 5, left: 5),
                 child: Text(
                   heading,
                   textAlign: TextAlign.left,
@@ -222,19 +258,19 @@ class _CreateAdPageState extends State<CreateAdPage> {
                     Uint8List imageAsBytes = tempImg.readAsBytesSync();
                     final imageAsPackage = ImgPackage.decodeImage(imageAsBytes);
                     final resizedImage =
-                        ImgPackage.copyResize(imageAsPackage!, width: 50);
+                        ImgPackage.copyResize(imageAsPackage!, width: 150);
                     Uint8List resizedImageAsBytes =
                         Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);
-                    setState(() {
-                      imageFileList!.clear();
-                      imageNameList.clear();
-                      if (!_profileData.containsKey("profile_picture")) {
-                        _profileData["profile_picture"] = imageBase64;
-                      }
-                      imageFileList?.add(resizedImageAsBytes);
-                      imageNameList.add(image.path);
-                    });
+
+                    imageFileList!.clear();
+                    imageNameList.clear();
+
+                    _profileData["profile_info"]["profile_picture"] =
+                        imageBase64;
+
+                    imageFileList?.add(resizedImageAsBytes);
+                    imageNameList.add(image.path);
                   }
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
