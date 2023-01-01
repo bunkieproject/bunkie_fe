@@ -191,8 +191,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             )
                                           ],
                                         ),
-                                        _adValidator(snapshot.data?[adType],
-                                            screenWidth),
+                                        _adValidator(
+                                            snapshot.data?[adType],
+                                            screenWidth,
+                                            context,
+                                            widget.ownProfile),
                                       ],
                                     ),
                                   ),
@@ -374,7 +377,8 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  static Center _adValidator(Iterable? value, double screenWidth) {
+  Widget _adValidator(
+      Iterable? value, double screenWidth, context, ownProfile) {
     List<Widget> houseAd = <Widget>[];
     if (value == null || value == "null") {
       houseAd.add(const SizedBox(
@@ -384,7 +388,12 @@ class _ProfilePageState extends State<ProfilePage> {
       for (var each in value) {
         houseAd.add(Column(
           children: [
-            BunkieProfilePageWidgets.houseAddCard(
+            BunkieProfilePageWidgets().houseAddCard(
+                adType,
+                ownProfile,
+                context,
+                widget.token,
+                widget.userID,
                 screenWidth,
                 each["header"],
                 "Specifications",
@@ -396,7 +405,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     " / " +
                     each["district"] +
                     " / " +
-                    each["city"])
+                    each["city"],
+                each["ad_id"]),
           ],
         ));
       }
