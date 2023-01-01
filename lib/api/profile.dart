@@ -26,7 +26,6 @@ class BunkieProfileAPI {
         return responseMap;
       }
     } catch (e) {
-      print("Error!");
       print(e.toString());
     }
     return Map<String, dynamic>();

@@ -94,12 +94,14 @@ class BunkieProfilePageWidgets {
                   Padding(
                       padding: EdgeInsets.all(5),
                       // HEADER
-                      child: Text(header,
-                          textAlign: TextAlign.center,
+                      child: Container(
+                        width: screenWidth*0.35,
+                        child: Text(header,
                           style: const TextStyle(
                             color: BunkieColors.light,
                           ),
-                          textScaleFactor: BunkieText.large)),
+                          textScaleFactor: BunkieText.large),
+                      )),
                   adDeleteButton(ownProfile, context, token, userID,
                       screenWidth, ad_id, adType),
                 ])),

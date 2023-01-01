@@ -289,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ElevatedButton(
             style: raisedButtonStyle,
             onPressed: () => {
-                  if (photo == "room_ads")
+                  if (adType == "room_ads")
                     {
                       BunkieUtil.navigateToCreateHouseAdPage(
                           context, widget.token, widget.userID)
@@ -401,11 +401,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 each["number_of_rooms"],
                 each["school"],
                 each["gender_preferred"],
-                each["quarter"] +
+                each["city"] +
                     " / " +
                     each["district"] +
                     " / " +
-                    each["city"],
+                    each["quarter"],
                 each["ad_id"]),
           ],
         ));
