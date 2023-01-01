@@ -8,8 +8,11 @@ import 'package:app/widget/form.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as ImgPackage;
+import 'profile.dart' as profile;
 
 bool? checkedValue = false;
+
+bool? searching = profile.getSearchingStatus();
 
 class EditProfilePage extends StatefulWidget {
   final String token;
@@ -104,6 +107,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   ),
                                   formFieldContainer(formFieldPadding, "Phone",
                                       screenWidth * 0.95, _phoneValidator),
+                                  //display phone
                                   Container(
                                     margin: EdgeInsets.all(formFieldPadding),
                                     width: screenWidth * 0.85,
@@ -123,6 +127,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           checkedValue = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                  ),
+                                  // search status
+                                  Container(
+                                    margin: EdgeInsets.all(formFieldPadding),
+                                    width: screenWidth * 0.85,
+                                    decoration: const BoxDecoration(
+                                        color: BunkieColors.light,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: CheckboxListTile(
+                                      title: const Text(
+                                          "Are you searching a home?",
+                                          style: TextStyle(
+                                              color: BunkieColors.slate)),
+                                      value: searching,
+                                      checkColor: BunkieColors
+                                          .dark, // color of tick Mark
+                                      activeColor: BunkieColors.bright,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          searching = newValue;
+                                          profile.setSearchingStatus(searching);
                                         });
                                       },
                                       controlAffinity: ListTileControlAffinity
@@ -228,6 +259,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
       child: BunkieFormWidgets.getTextFormFieldIconless(
           false, fieldName, validator),
     );
+  }
+
+  Widget checkyCheckBox(
+      double padding, double screenWidth, bool? varToCheck, String setting) {
+    return Container(
+        margin: EdgeInsets.all(padding),
+        width: screenWidth * 0.85,
+        decoration: const BoxDecoration(
+            color: BunkieColors.light,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: CheckboxListTile(
+          title:
+              Text(setting, style: const TextStyle(color: BunkieColors.slate)),
+          value: varToCheck,
+          checkColor: BunkieColors.dark, // color of tick Mark
+          activeColor: BunkieColors.bright,
+          onChanged: (newValue) {
+            setState(() {
+              varToCheck = newValue;
+            });
+          },
+          controlAffinity:
+              ListTileControlAffinity.leading, //  <-- leading Checkbox
+        ));
   }
 
   Widget uploadPhotoContainer(

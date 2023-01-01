@@ -1,5 +1,8 @@
-import 'dart:convert';
+library profile;
 
+export 'profile.dart';
+
+import 'dart:convert';
 import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
@@ -11,6 +14,15 @@ import 'package:image/image.dart' as ImgPackage;
 
 String default_photo_path = 'assets/images/babur.png';
 String photo = default_photo_path;
+bool? searching = false;
+
+getSearchingStatus() {
+  return searching;
+}
+
+setSearchingStatus(bool? searchingStatus) {
+  searching = searchingStatus;
+}
 
 const List<Widget> ads = <Widget>[
   Text('House Ads',
@@ -110,19 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(30),
-                                        child: Container(
-                                          color: BunkieColors.greenygreen,
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: const Text("Searching",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: BunkieColors.slate,
-                                              ),
-                                              textScaleFactor:
-                                                  BunkieText.medium),
-                                        )),
+                                    searchingStatus(),
                                     SizedBox(
                                       width: screenWidth * 0.02,
                                     ),
@@ -246,6 +246,36 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 150,
         width: 150,
       );
+    }
+  }
+
+  Widget searchingStatus() {
+    if (searching == true) {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            color: BunkieColors.greenygreen,
+            padding: const EdgeInsets.all(5.0),
+            child: const Text("Searching",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: BunkieColors.slate,
+                ),
+                textScaleFactor: BunkieText.medium),
+          ));
+    } else {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            color: Colors.grey,
+            padding: const EdgeInsets.all(5.0),
+            child: const Text("Not searching",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: BunkieColors.slate,
+                ),
+                textScaleFactor: BunkieText.medium),
+          ));
     }
   }
 
