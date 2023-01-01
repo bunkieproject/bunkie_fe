@@ -34,7 +34,13 @@ final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     ));
 
 final ButtonStyle editButtonStyle = ElevatedButton.styleFrom(
-  backgroundColor: BunkieColors.bright,
+    backgroundColor: BunkieColors.bright,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(50)),
+    ));
+
+final ButtonStyle editButtonStyle2 = ElevatedButton.styleFrom(
+  backgroundColor: Colors.red,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(50)),
   ),
