@@ -12,9 +12,9 @@ import 'package:app/page/main/roommate_search.dart';
 import 'package:flutter/material.dart';
 
 class BunkieUtil {
-  static void navigateToLoginPage(BuildContext context) {
+  static void navigateToLoginPage(BuildContext context, bool isError) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LoginPage()));
+        .push(MaterialPageRoute(builder: (context) => LoginPage(isError: isError)));
   }
 
   static void navigateToForgottenPasswordPage(BuildContext context) {
@@ -22,9 +22,9 @@ class BunkieUtil {
         .push(MaterialPageRoute(builder: (context) => ForgottenPasswordPage()));
   }
 
-  static void navigateToRegisterPage(BuildContext context) {
+  static void navigateToRegisterPage(BuildContext context, bool isError) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterPage()));
+        .push(MaterialPageRoute(builder: (context) => RegisterPage(isError: isError,)));
   }
 
   static void navigateToMainPage(

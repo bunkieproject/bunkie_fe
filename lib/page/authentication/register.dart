@@ -4,7 +4,8 @@ import 'package:app/widget/form.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final bool isError;
+  const RegisterPage({Key? key, required this.isError}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -79,6 +80,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ],
                                   )),
                               SizedBox(height: screenHeight * 0.05),
+                              _getErrorMessage(),
+                              SizedBox(height: screenHeight * 0.05),
                               // Button
                               BunkieFormWidgets.getSubmitButton(
                                 () {BunkieAuthAPI.registerAction(context, _registerFormKey, _registerFormData);},
@@ -109,6 +112,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _usernameFormValidator(String? value) {
     if (value!.isEmpty) {
       return "Please enter your username";
+    } else if (value.length < 4) {
+      return "Can not be smaller than 4 characters";
     } else {
       _registerFormData['username'] = value;
       return null;
@@ -118,6 +123,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _passwordFormValidator(String? value) {
     if (value!.isEmpty) {
       return "Please enter your password";
+    } else if (value.length < 6) {
+      return "Can not be smaller than 6 characters";
     } else {
       _registerFormData['password'] = value;
       return null;
@@ -132,6 +139,17 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       _registerFormData['password_confirm'] = value;
       return null;
+    }
+  }
+
+  Widget _getErrorMessage() {
+    if (widget.isError) {
+      return const Text(
+        "There is already a user with this username or email.",
+        style: TextStyle(color: BunkieColors.dark),
+      );
+    } else {
+      return const SizedBox();
     }
   }
 }
