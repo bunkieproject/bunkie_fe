@@ -21,6 +21,8 @@ class BunkieAuthAPI {
           Map<String, dynamic> responseMap = json.jsonDecode(response.body);
           BunkieUtil.navigateToMainPage(
               context, responseMap["token"], responseMap["user_id"]);
+        } else {
+          BunkieUtil.navigateToLoginPage(context, true);
         }
       } catch (e) {
         print(e.toString());
@@ -39,9 +41,11 @@ class BunkieAuthAPI {
           },
           body: json.jsonEncode(formData),
         );
-        print(response.body);
+
         if (response.statusCode == 200) {
-          BunkieUtil.navigateToLoginPage(context);
+          BunkieUtil.navigateToLoginPage(context, false);
+        } else {
+          BunkieUtil.navigateToRegisterPage(context, true);
         }
       } catch (e) {
         print(e.toString());

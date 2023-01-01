@@ -1,9 +1,28 @@
+library profile;
+
+export 'profile.dart';
+
+import 'dart:convert';
 import 'package:app/constants.dart';
 import 'package:app/widget/profile_text.dart';
 import 'package:app/widget/sidebar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:app/api/profile.dart';
 import 'package:app/api/util.dart';
+import 'package:image/image.dart' as ImgPackage;
+
+String default_photo_path = 'assets/images/babur.png';
+String photo = default_photo_path;
+bool? searching = false;
+
+getSearchingStatus() {
+  return searching;
+}
+
+setSearchingStatus(bool? searchingStatus) {
+  searching = searchingStatus;
+}
 
 const List<Widget> ads = <Widget>[
   Text('House Ads',
@@ -21,7 +40,8 @@ class ProfilePage extends StatefulWidget {
   final String userID;
   final Map<String, dynamic> displayProfileForm;
   final bool ownProfile;
-  const ProfilePage({Key? key,
+  const ProfilePage(
+      {Key? key,
       required this.token,
       required this.userID,
       required this.displayProfileForm,
@@ -56,7 +76,11 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 FutureBuilder(
                     future: BunkieProfileAPI.getProfileInfo(
-                        context, widget.token, widget.userID, widget.displayProfileForm, screenWidth),
+                        context,
+                        widget.token,
+                        widget.userID,
+                        widget.displayProfileForm,
+                        screenWidth),
                     builder: ((context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
@@ -82,38 +106,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                 snapshot.data?['user_account_info']['email'],
                                 displayEmail);
                             String phone = _validatorWithPreference(
-                                snapshot.data?['user_account_info']['phone'],
+                                snapshot.data?['user_profile_info']['phone'],
                                 displayPhone);
+                            photo = _photoValidator(snapshot
+                                .data?['user_profile_info']['profile_picture']);
                             return Column(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    'assets/images/babur.png',
-                                    fit: BoxFit.fill,
-                                    height: 150,
-                                    width: 150,
-                                  ),
+                                SizedBox(
+                                  height: screenHeight * 0.02,
                                 ),
+                                editProfilePic(),
                                 SizedBox(
                                   height: screenWidth * 0.02,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(30),
-                                        child: Container(
-                                          color: BunkieColors.greenygreen,
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: const Text("Searching",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: BunkieColors.slate,
-                                              ),
-                                              textScaleFactor:
-                                                  BunkieText.medium),
-                                        )),
+                                    searchingStatus(),
                                     SizedBox(
                                       width: screenWidth * 0.02,
                                     ),
@@ -134,6 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           fontSize: 12),
                                       textScaleFactor: BunkieText.medium),
                                 ),
+                                getEditButton(),
                                 const Divider(
                                   color: BunkieColors.bright,
                                   indent: 35,
@@ -141,8 +151,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   thickness: 1,
                                 ),
                                 Column(children: [
-                                  BunkieProfilePageWidgets.getProfilePageText(
-                                      "E-mail:", email, screenWidth, 70),
                                   BunkieProfilePageWidgets.getProfilePageText(
                                       "Phone:", phone, screenWidth, 70),
                                   BunkieProfilePageWidgets.getProfilePageText(
@@ -202,30 +210,95 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
+  Widget getEditButton() {
+    if (widget.ownProfile) {
+      return Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: ElevatedButton(
+            style: editButtonStyle,
+            onPressed: () => {
+              BunkieUtil.navigateToProfileEditPage(
+                  context, widget.token, widget.userID)
+            },
+            child: Text("Edit"),
+          ));
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  Widget editProfilePic() {
+    if (photo == default_photo_path) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset(
+          photo,
+          fit: BoxFit.fill,
+          height: 150,
+          width: 150,
+        ),
+      );
+    } else {
+      Uint8List bytes = Base64Decoder().convert(photo);
+      return Image.memory(
+        bytes,
+        fit: BoxFit.fill,
+        height: 150,
+        width: 150,
+      );
+    }
+  }
+
+  Widget searchingStatus() {
+    if (searching == true) {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            color: BunkieColors.greenygreen,
+            padding: const EdgeInsets.all(5.0),
+            child: const Text("Searching",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: BunkieColors.slate,
+                ),
+                textScaleFactor: BunkieText.medium),
+          ));
+    } else {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            color: Colors.grey,
+            padding: const EdgeInsets.all(5.0),
+            child: const Text("Not searching",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: BunkieColors.slate,
+                ),
+                textScaleFactor: BunkieText.medium),
+          ));
+    }
+  }
+
   Widget getAddButton() {
     if (widget.ownProfile) {
       return Padding(
-        padding: const EdgeInsets.only(
-            left: 10.0),
+        padding: const EdgeInsets.only(left: 10.0),
         child: ElevatedButton(
             style: raisedButtonStyle,
             onPressed: () => {
-                  if (adType == "room_ads") {
-                      BunkieUtil
-                          .navigateToCreateHouseAdPage(
-                              context,
-                              widget.token,
-                              widget.userID)
-                    } else {
-                      BunkieUtil
-                          .navigateToCreateBunkieAdPage(
-                              context,
-                              widget.token,
-                              widget.userID)
+                  if (photo == "room_ads")
+                    {
+                      BunkieUtil.navigateToCreateHouseAdPage(
+                          context, widget.token, widget.userID)
+                    }
+                  else
+                    {
+                      BunkieUtil.navigateToCreateBunkieAdPage(
+                          context, widget.token, widget.userID)
                     }
                 },
             child: const Icon(Icons.add)),
-        );
+      );
     } else {
       return const SizedBox();
     }
@@ -290,6 +363,14 @@ class _ProfilePageState extends State<ProfilePage> {
       return "Not specified.";
     } else {
       return value;
+    }
+  }
+
+  String _photoValidator(String? photo) {
+    if (photo == null || photo.isEmpty) {
+      return default_photo_path; // default photo
+    } else {
+      return photo;
     }
   }
 
