@@ -1,3 +1,4 @@
+import 'package:app/api/util.dart';
 import "package:app/constants.dart";
 import 'package:app/page/main/profile.dart';
 import "package:flutter/material.dart";
@@ -89,14 +90,11 @@ class BunkieSideBarNavigation extends StatelessWidget {
 
     switch (index) {
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(token: token, userID: userID,),
-        ));
+        BunkieUtil.navigateToMainPage(context, token, userID);
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ProfilePage(token: token, userID: userID),
-        ));
+        BunkieUtil.navigateToProfilePage(context, token, userID, <String, dynamic>{}, true);
+        break;
       // TODO: navigate to other pages
     }
   }

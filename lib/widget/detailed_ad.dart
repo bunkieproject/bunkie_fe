@@ -27,7 +27,7 @@ class BunkieDetailedAdWidgets {
           ),
           _getSpeficiations(
               adDetail["price"].toString(),
-              "${adDetail["city"]}, ${adDetail["district"]}, ${adDetail["quarter"]}",
+              "${adDetail["city"]} / ${adDetail["district"]} / ${adDetail["quarter"]}",
               adDetail["number_of_rooms"],
               adDetail["gender_preferred"],
               adDetail["school"]),
@@ -64,7 +64,7 @@ class BunkieDetailedAdWidgets {
           ),
           _getSpeficiations(
               adDetail["price"].toString(),
-              "${adDetail["city"]}, ${adDetail["district"]}, ${adDetail["quarter"]}",
+              "${adDetail["city"]} / ${adDetail["district"]} / ${adDetail["quarter"]}",
               adDetail["number_of_rooms"],
               adDetail["gender_preferred"],
               adDetail["school"]),
@@ -97,18 +97,15 @@ class BunkieDetailedAdWidgets {
 
   static Container _getVisitButton(BuildContext context, String token,
       String userID, String ownerID, String adID) {
-    Map<String, dynamic> getDisplayProfileForm;
-    getDisplayProfileForm = <String, dynamic>{"user_id": adID};
+    Map<String, dynamic> displayProfileForm;
+    displayProfileForm = <String, dynamic>{"user_id": ownerID};
+
     return Container(
         padding: const EdgeInsets.all(5),
         child: ElevatedButton(
             onPressed: () => {
-                  /*if (adType.toLowerCase() == "house") {
-                BunkieUtil.navigateToProfilePage(context, token, userID, getDisplayProfileForm)
-              } else {
-                BunkieUtil.navigateToProfilePage(context, token, userID, getDisplayProfileForm)
-              }*/
-                },
+                BunkieUtil.navigateToProfilePage(context, token, userID, displayProfileForm, false)
+            },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(BunkieColors.bright),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
