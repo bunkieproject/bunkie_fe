@@ -9,7 +9,6 @@ import 'package:app/page/main/house_search.dart';
 import 'package:app/page/main/main.dart';
 import 'package:app/page/main/profile.dart';
 import 'package:app/page/main/roommate_search.dart';
-import 'package:app/page/add/create_ad.dart';
 import 'package:flutter/material.dart';
 
 class BunkieUtil {
