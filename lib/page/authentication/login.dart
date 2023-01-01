@@ -5,7 +5,8 @@ import 'package:app/widget/form.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final bool isError;
+  const LoginPage({Key? key, required this.isError}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -72,13 +73,17 @@ class _LoginPageState extends State<LoginPage> {
                                             "Forgotten password?",
                                             style: TextStyle(
                                                 color: BunkieColors.dark),
-                                          ))
+                                          )),
+                                      _getErrorMessage(),
                                     ],
                                   )),
                               SizedBox(height: screenHeight * 0.05),
                               // Button
                               BunkieFormWidgets.getSubmitButton(
-                                () {BunkieAuthAPI.loginAction(context, _loginFormKey, _loginFormData);},
+                                () {
+                                  BunkieAuthAPI.loginAction(
+                                      context, _loginFormKey, _loginFormData);
+                                },
                                 screenWidth * 0.3,
                                 screenHeight * 0.055,
                                 BunkieColors.dark,
@@ -95,13 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                 const Text("Don't you have any accounts?"),
                 TextButton(
                     onPressed: () =>
-                        {BunkieUtil.navigateToRegisterPage(context)},
+                        {BunkieUtil.navigateToRegisterPage(context, false)},
                     child: const Text(
                       "Register",
                       style: TextStyle(color: BunkieColors.bright),
                     ))
               ],
-            )
+            ),
           ],
         )));
   }
@@ -121,6 +126,17 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       _loginFormData['password'] = value;
       return null;
+    }
+  }
+
+  Widget _getErrorMessage() {
+    if (widget.isError) {
+      return const Text(
+        "Username or password is invalid.",
+        style: TextStyle(color: BunkieColors.dark),
+      );
+    } else {
+      return const SizedBox();
     }
   }
 }
