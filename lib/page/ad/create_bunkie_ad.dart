@@ -12,7 +12,8 @@ import 'package:image/image.dart' as ImgPackage;
 class CreateBunkieAdPage extends StatefulWidget {
   final String token;
   final String userID;
-  const CreateBunkieAdPage({Key? key, required this.token, required this.userID})
+  const CreateBunkieAdPage(
+      {Key? key, required this.token, required this.userID})
       : super(key: key);
 
   @override
@@ -165,7 +166,7 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _cityValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a city";
+      return "Please give a city.";
     } else {
       _adFormData['city'] = value;
       return null;
@@ -174,7 +175,7 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _districtValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a district";
+      return "Please give a district.";
     } else {
       _adFormData['district'] = value;
       return null;
@@ -183,7 +184,7 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _quarterValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a district";
+      return "Please give a quarter.";
     } else {
       _adFormData['quarter'] = value;
       return null;
@@ -192,7 +193,9 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _sizeValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a district";
+      return "Please give a size.";
+    } else if (!value.contains("+")) {
+      return "Your size must\n be in the form:\nrooms+saloons";
     } else {
       _adFormData['number_of_rooms'] = value;
       return null;
@@ -201,7 +204,9 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _priceValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a price";
+      return "Please give a price.";
+    } else if (double.tryParse(value) == null) {
+      return "Please only use numbers!";
     } else {
       _adFormData['price'] = double.parse(value);
       return null;
@@ -210,7 +215,9 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _descriptionValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a price";
+      return "Please provide a description of your house.";
+    } else if (value.length > 700) {
+      return "Length cannot be bigger than 700!";
     } else {
       _adFormData['description'] = value;
       return null;
@@ -219,29 +226,23 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _schoolValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please give a school";
+      return null;
+    } else if (value.length > 150) {
+      return "Length cannot be\nbigger than 150!";
     } else {
       _adFormData['school'] = value;
       return null;
     }
   }
 
-  String? _photoValidator(List<XFile>? imageFileList) {
-    if (imageFileList!.isEmpty) {
-      return "Please select an image.";
-    } else {
-      return null;
-    }
-  }
-
   String? _genderValidator(String? value) {
     if (value!.isEmpty) {
-      return "Please specifiy a gender preference";
+      return "Please specifiy a\ngender preference";
     } else if (value.toLowerCase() != "female" &&
         value.toLowerCase() != "male" &&
         value != "") {
-      return "Please specify a gender preference: Female, Male or None";
-    }  else {
+      return "Please specify a gender\npreference: Female, \nMale or None";
+    } else {
       _adFormData['gender_preferred'] = value;
       return null;
     }
