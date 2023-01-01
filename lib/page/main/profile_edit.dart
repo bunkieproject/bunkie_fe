@@ -49,7 +49,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
               width: screenWidth * 0.95,
-              height: screenHeight * 0.75,
               child: SingleChildScrollView(
                   child: Padding(
                       padding: EdgeInsets.only(top: formFieldPadding * 1.5),
@@ -59,7 +58,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           Padding(
                               padding: EdgeInsets.all(formFieldPadding),
                               child: const Text(
-                                "Create Advertisement",
+                                "Edit Your Profile",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: BunkieColors.dark,

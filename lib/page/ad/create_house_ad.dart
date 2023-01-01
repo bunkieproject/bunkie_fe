@@ -43,7 +43,6 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
         body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
               width: screenWidth * 0.95,
-              height: screenHeight * 0.75,
               child: SingleChildScrollView(
                   child: Padding(
                       padding: EdgeInsets.only(top: formFieldPadding * 1.5),
