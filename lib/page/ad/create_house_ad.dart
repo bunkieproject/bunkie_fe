@@ -9,17 +9,17 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as ImgPackage;
 
-class CreateAdPage extends StatefulWidget {
+class CreateHouseAdPage extends StatefulWidget {
   final String token;
   final String userID;
-  const CreateAdPage({Key? key, required this.token, required this.userID})
+  const CreateHouseAdPage({Key? key, required this.token, required this.userID})
       : super(key: key);
 
   @override
-  _CreateAdPageState createState() => _CreateAdPageState();
+  _CreateHouseAdPageState createState() => _CreateHouseAdPageState();
 }
 
-class _CreateAdPageState extends State<CreateAdPage> {
+class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
   Map<String, dynamic> _adFormData = <String, dynamic>{};
   final _createAdFormKey = GlobalKey<FormState>();
   File? image;
@@ -143,7 +143,7 @@ class _CreateAdPageState extends State<CreateAdPage> {
                                       () {
                                         if (_createAdFormKey.currentState!
                                             .validate()) {
-                                          BunkieProfileAPI.createAdAction(
+                                          BunkieProfileAPI.createHouseAdAction(
                                               context,
                                               widget.token,
                                               widget.userID,
@@ -327,31 +327,6 @@ class _CreateAdPageState extends State<CreateAdPage> {
                       imageNameList.add(image.path);
                     });
                   }
-                  /*final selectedImages =
-                      await ImagePicker().pickMultiImage();
-                  setState(() {
-                    for (int j = 0; j < selectedImages.length; j++) {
-                      File currentImg = File(selectedImages[j].path);
-                      Uint8List bytes = currentImg.readAsBytesSync();
-                      ImgPackage.Image? packageImg = ImgPackage.PngDecoder()
-                          .decodeImage(bytes.buffer.asUint8List());
-                      ImgPackage.Image resized =
-                          ImgPackage.copyResize(packageImg!, width: 50);
-                      Uint8List resizedImg =
-                          Uint8List.fromList(ImgPackage.encodePng(resized));
-                      if (j == 0) {
-                        String base64string = base64.encode(resizedImg);
-                        _adFormData["header_bytearray"] = base64string;
-                      } else {
-                        String base64string = base64.encode(resizedImg);
-                        _adFormData["other_bytearrays"] += base64string;
-                        if (j != selectedImages.length-1) {
-                          _adFormData["other_bytearrays"] += ","; // seperator
-                        }
-                      }
-                      imageFileList?.add(resizedImg);
-                    }
-                  });*/
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
                 }

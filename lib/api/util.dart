@@ -1,11 +1,15 @@
+import 'package:app/page/ad/bunkie_ad.dart';
+import 'package:app/page/ad/create_bunkie_ad.dart';
+import 'package:app/page/ad/create_house_ad.dart';
+import 'package:app/page/ad/house_ad.dart';
 import 'package:app/page/authentication/forgotten_password.dart';
 import 'package:app/page/authentication/login.dart';
 import 'package:app/page/authentication/register.dart';
 import 'package:app/page/main/house_search.dart';
 import 'package:app/page/main/main.dart';
 import 'package:app/page/main/profile.dart';
-import 'package:app/page/add/create_ad.dart';
 import 'package:app/page/main/roommate_search.dart';
+import 'package:app/page/add/create_ad.dart';
 import 'package:flutter/material.dart';
 
 class BunkieUtil {
@@ -34,18 +38,33 @@ class BunkieUtil {
   }
 
   static void navigateToProfilePage(
-      BuildContext context, String token, String userID) {
+      BuildContext context, String token, String userID, Map<String, dynamic> displayProfileForm, bool ownProfile) {
+    if (ownProfile) {
+      displayProfileForm["user_id"] = userID;
+    }
+    displayProfileForm["token"] = token;
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ProfilePage(
+              token: token,
+              userID: userID,
+              displayProfileForm: displayProfileForm,
+              ownProfile: ownProfile,
+            )));
+  }
+
+  static void navigateToCreateHouseAdPage(
+      BuildContext context, String token, String userID) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CreateHouseAdPage(
               token: token,
               userID: userID,
             )));
   }
 
-  static void navigateToCreateAdPage(
+  static void navigateToCreateBunkieAdPage(
       BuildContext context, String token, String userID) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CreateAdPage(
+        builder: (context) => CreateBunkieAdPage(
               token: token,
               userID: userID,
             )));
@@ -68,6 +87,30 @@ class BunkieUtil {
               token: token,
               userID: userID,
               searchForm: searchForm,
+            )));
+  }
+
+  static void navigateToDetailedHouseAdPage(
+      BuildContext context, String token, String userID, Map<String, dynamic> getAdDetailForm) {
+    getAdDetailForm["token"] = token;
+    getAdDetailForm["user_id"] = userID;
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DetailedHouseAdPage(
+              token: token,
+              userID: userID,
+              getAdDetailForm: getAdDetailForm,
+            )));
+  }
+
+  static void navigateToDetailedBunkieAdPage(
+      BuildContext context, String token, String userID, Map<String, dynamic> getAdDetailForm) {
+    getAdDetailForm["token"] = token;
+    getAdDetailForm["user_id"] = userID;
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DetailedBunkieAdPage(
+              token: token,
+              userID: userID,
+              getAdDetailForm: getAdDetailForm,
             )));
   }
 }
