@@ -11,6 +11,9 @@ class BunkieApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'bunkie', home: LoginPage(isError: false));
+    return MaterialApp(
+      title: 'bunkie',
+      home: LoginPage(isError: false),
+    );
   }
 }

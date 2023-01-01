@@ -1,13 +1,13 @@
 import 'package:app/api/util.dart';
 import "package:app/constants.dart";
-import 'package:app/page/main/profile.dart';
+import "package:app/page/authentication/login.dart";
 import "package:flutter/material.dart";
-import 'package:app/page/main/main.dart';
 
 class BunkieSideBarNavigation extends StatelessWidget {
   final String token;
   final String userID;
-  const BunkieSideBarNavigation({Key? key, required this.token, required this.userID})
+  const BunkieSideBarNavigation(
+      {Key? key, required this.token, required this.userID})
       : super(key: key);
 
   @override
@@ -55,6 +55,13 @@ class BunkieSideBarNavigation extends StatelessWidget {
                     icon: Icons.settings,
                     onClicked: () => _navigateTo(context, 3, token, userID),
                   ),
+                  const Divider(color: BunkieColors.light),
+                  SizedBox(height: screenHeight * 0.025),
+                  _buildMenuItem(
+                    text: "Logout",
+                    icon: Icons.logout,
+                    onClicked: () => _navigateTo(context, 4, token, userID),
+                  ),
                   const Divider(color: BunkieColors.light)
                 ],
               ),
@@ -85,7 +92,8 @@ class BunkieSideBarNavigation extends StatelessWidget {
     );
   }
 
-  void _navigateTo(BuildContext context, int index, String token, String userID) {
+  void _navigateTo(
+      BuildContext context, int index, String token, String userID) {
     Navigator.of(context).pop();
 
     switch (index) {
@@ -93,9 +101,24 @@ class BunkieSideBarNavigation extends StatelessWidget {
         BunkieUtil.navigateToMainPage(context, token, userID);
         break;
       case 1:
-        BunkieUtil.navigateToProfilePage(context, token, userID, <String, dynamic>{}, true);
+        BunkieUtil.navigateToProfilePage(
+            context, token, userID, <String, dynamic>{}, true);
         break;
-      // TODO: navigate to other pages
+      case 4:
+        Navigator.of(context).pushAndRemoveUntil(
+          // the new route
+          MaterialPageRoute(
+            builder: (BuildContext context) => LoginPage(
+              isError: false,
+            ),
+          ),
+
+          // this function should return true when we're done removing routes
+          // but because we want to remove all other screens, we make it
+          // always return false
+          (Route route) => false,
+        );
+      //logout(context);
     }
   }
 }
