@@ -19,7 +19,13 @@ const List<Widget> ads = <Widget>[
 class ProfilePage extends StatefulWidget {
   final String token;
   final String userID;
-  const ProfilePage({Key? key, required this.token, required this.userID})
+  final Map<String, dynamic> displayProfileForm;
+  final bool ownProfile;
+  const ProfilePage({Key? key,
+      required this.token,
+      required this.userID,
+      required this.displayProfileForm,
+      required this.ownProfile})
       : super(key: key);
 
   @override
@@ -50,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 FutureBuilder(
                     future: BunkieProfileAPI.getProfileInfo(
-                        context, widget.token, widget.userID, screenWidth),
+                        context, widget.token, widget.userID, widget.displayProfileForm, screenWidth),
                     builder: ((context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
@@ -165,23 +171,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 10.0),
-                                              child: ElevatedButton(
-                                                style: raisedButtonStyle,
-                                                onPressed: () => {
-                                                  BunkieUtil
-                                                      .navigateToCreateAdPage(
-                                                          context,
-                                                          widget.token,
-                                                          widget.userID)
-                                                },
-                                                child: const Text('+'),
-                                              ),
-                                            ),
+                                            getAddButton(),
                                             getProfileAdToggleButton(
-                                              _houseAction,
+                                              null,
                                               screenWidth * 0.5,
                                               screenHeight * 0.03,
                                               BunkieColors.dark,
@@ -200,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             );
                           } else {
-                            return Text("No info to display!");
+                            return const Text("No info to display!");
                           }
                       }
                     })),
@@ -210,12 +202,33 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
-  void _bunkieAction() {
-    print("Show bunkie ads!");
-  }
-
-  void _houseAction() {
-    print("Show house ads!");
+  Widget getAddButton() {
+    if (widget.ownProfile) {
+      return Padding(
+        padding: const EdgeInsets.only(
+            left: 10.0),
+        child: ElevatedButton(
+            style: raisedButtonStyle,
+            onPressed: () => {
+                  if (adType == "room_ads") {
+                      BunkieUtil
+                          .navigateToCreateHouseAdPage(
+                              context,
+                              widget.token,
+                              widget.userID)
+                    } else {
+                      BunkieUtil
+                          .navigateToCreateBunkieAdPage(
+                              context,
+                              widget.token,
+                              widget.userID)
+                    }
+                },
+            child: const Icon(Icons.add)),
+        );
+    } else {
+      return const SizedBox();
+    }
   }
 
   Widget getProfileAdToggleButton(
@@ -271,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String _validatorWithPreference(dynamic value, dynamic preference) {
-    if (value == "null" || value == null) {
+    if (value == null || value == "null") {
       return "Not specified.";
     } else if (preference == false) {
       return "Not specified.";
@@ -282,14 +295,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   static Center _adValidator(Iterable? value, double screenWidth) {
     List<Widget> houseAd = <Widget>[];
-    if (value == "null" || value == null) {
+    if (value == null || value == "null") {
       houseAd.add(const SizedBox(
         height: 10,
       ));
     } else {
       for (var each in value) {
-        print("haha");
-        print(each);
         houseAd.add(Column(
           children: [
             BunkieProfilePageWidgets.houseAddCard(
@@ -313,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   bool? _validatorBool(bool? value) {
-    if (value == "null" || value == null) {
+    if (value == null || value == "null") {
       return false;
     } else {
       return value;
