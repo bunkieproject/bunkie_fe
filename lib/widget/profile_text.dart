@@ -13,7 +13,7 @@ class BunkieProfilePageWidgets {
               padding: EdgeInsets.only(left: leftPadding),
               child: Text(key,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: BunkieColors.slate,
                   ),
                   textScaleFactor: BunkieText.medium)),
@@ -22,7 +22,7 @@ class BunkieProfilePageWidgets {
           ),
           Text(value,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: BunkieColors.bright,
               ),
               textScaleFactor: BunkieText.medium),
