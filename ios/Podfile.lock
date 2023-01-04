@@ -41,6 +41,8 @@ PODS:
   - SDWebImage (5.14.3):
     - SDWebImage/Core (= 5.14.3)
   - SDWebImage/Core (5.14.3)
+  - shared_preferences_ios (0.0.1):
+    - Flutter
   - SwiftyGif (5.4.3)
 
 DEPENDENCIES:
@@ -48,6 +50,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -65,6 +68,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   open_file:
     :path: ".symlinks/plugins/open_file/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
 
 SPEC CHECKSUMS:
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
@@ -74,6 +79,7 @@ SPEC CHECKSUMS:
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
