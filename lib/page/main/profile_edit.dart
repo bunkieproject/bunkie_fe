@@ -209,6 +209,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (value!.isEmpty) {
       _profileData['profile_info']['phone'] = "Not specified.";
       return null;
+    } else if (value.contains(RegExp(r'[a-z]'))) {
+      return "Enter a valid phone number.";
     } else if (checkedValue == false) {
       _profileData['profile_info']['phone'] = "Not specified.";
       _profileData['profile_info']['display_phone'] = false;
@@ -226,7 +228,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     } else if (value.toLowerCase() != "female" &&
         value.toLowerCase() != "male" &&
         value != "") {
-      return "Please specify a gender preference: Female, Male or None";
+      return "Female, Male or None";
     } else {
       _profileData['profile_info']['gender'] = value;
       return null;
