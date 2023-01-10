@@ -132,4 +132,28 @@ class BunkieProfileAPI {
       print(e.toString());
     }
   }
+
+  static Future<void> editAccountAction(BuildContext context, String token,
+      String id, Map<String, dynamic> formData) async {
+    formData["token"] = token;
+    formData["user_id"] = id;
+
+    try {
+      var response = await http.put(
+        Uri.parse(BunkieAddress.getRoute("users/settings")),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.jsonEncode(formData),
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseMap = json.jsonDecode(response.body);
+        // ignore: use_build_context_synchronously
+        BunkieUtil.navigateToProfilePage(
+            context, token, id, Map<String, dynamic>(), true);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

@@ -10,14 +10,15 @@ import 'package:app/page/main/main.dart';
 import 'package:app/page/main/profile.dart';
 import 'package:app/page/main/roommate_search.dart';
 import 'package:app/page/main/profile_edit.dart';
+import 'package:app/page/main/settings.dart';
 import 'package:app/page/ad/create_house_ad.dart';
 import 'package:app/page/ad/create_bunkie_ad.dart';
 import 'package:flutter/material.dart';
 
 class BunkieUtil {
   static void navigateToLoginPage(BuildContext context, bool isError) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LoginPage(isError: isError)));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => LoginPage(isError: isError)));
   }
 
   static void navigateToForgottenPasswordPage(BuildContext context) {
@@ -26,8 +27,10 @@ class BunkieUtil {
   }
 
   static void navigateToRegisterPage(BuildContext context, bool isError) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterPage(isError: isError,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => RegisterPage(
+              isError: isError,
+            )));
   }
 
   static void navigateToMainPage(
@@ -67,6 +70,15 @@ class BunkieUtil {
       BuildContext context, String token, String userID) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => CreateBunkieAdPage(
+              token: token,
+              userID: userID,
+            )));
+  }
+
+  static void navigateToSettingsPage(
+      BuildContext context, String token, String userID) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SettingsPage(
               token: token,
               userID: userID,
             )));
