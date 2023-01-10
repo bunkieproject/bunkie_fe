@@ -80,9 +80,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         screenWidth,
                                         screenHeight),
                                   ),
-                                  imageFileList!.isEmpty
-                                      ? const Text("I have picked an image!")
-                                      : const Text("No image chosen."),
                                   descriptionFieldContainer(
                                       formFieldPadding,
                                       "Description",
@@ -206,18 +203,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   String? _phoneValidator(String? value) {
+    if (checkedValue == false) {
+      _profileData['profile_info']['display_phone'] = false;
+    } else {
+      _profileData['profile_info']['display_phone'] = true;
+    }
+
     if (value!.isEmpty) {
-      _profileData['profile_info']['phone'] = "Not specified.";
       return null;
     } else if (value.contains(RegExp(r'[a-z]'))) {
       return "Enter a valid phone number.";
-    } else if (checkedValue == false) {
-      _profileData['profile_info']['phone'] = "Not specified.";
-      _profileData['profile_info']['display_phone'] = false;
-      return null;
     } else {
       _profileData['profile_info']['phone'] = value;
-      _profileData['profile_info']['display_phone'] = true;
       return null;
     }
   }

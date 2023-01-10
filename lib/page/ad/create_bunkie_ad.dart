@@ -225,6 +225,7 @@ class _CreateBunkieAdPageState extends State<CreateBunkieAdPage> {
 
   String? _schoolValidator(String? value) {
     if (value!.isEmpty) {
+      _adFormData['school'] = "Not specified.";
       return null;
     } else if (value.length > 150) {
       return "Length cannot be\nbigger than 150!";

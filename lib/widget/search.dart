@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:app/api/util.dart';
 import 'package:app/constants.dart';
 import 'package:app/widget/form.dart';
@@ -374,18 +376,18 @@ class BunkieSearchPageWidgets {
 
   static String? _lowerPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['upper_price'] = 9999999;
+      _prefFormData['lower_price'] = 0;
     } else {
-      _prefFormData['upper_price'] = value;
+      _prefFormData['lower_price'] = int.parse(value);
     }
     return null;
   }
 
   static String? _upperPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['lower_price'] = 0;
+      _prefFormData['upper_price'] = 999999999;
     } else {
-      _prefFormData['lower_price'] = value;
+      _prefFormData['upper_price'] = int.parse(value);
     }
     return null;
   }
