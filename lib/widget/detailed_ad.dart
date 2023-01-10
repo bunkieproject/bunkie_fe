@@ -118,6 +118,15 @@ class BunkieDetailedAdWidgets {
     }
     if (header == "null") {
       return Container();
+    } else if (others == "null") {
+      return Container(
+        width: screenWidth * 0.5,
+        height: screenHeight * 0.2,
+        child: Image.memory(
+          images[0],
+          fit: BoxFit.fill,
+        ),
+      );
     } else {
       // ignore: sized_box_for_whitespace
       return Container(

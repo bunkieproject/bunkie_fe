@@ -325,17 +325,18 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
                     Uint8List resizedImageAsBytes =
                         Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);
-
-                    if (!_adFormData.containsKey("header_bytearray")) {
-                      _adFormData["header_bytearray"] = imageBase64;
-                    } else if (!_adFormData.containsKey("other_bytearrays")) {
-                      _adFormData["other_bytearrays"] = imageBase64;
-                    } else {
-                      _adFormData["other_bytearrays"] =
-                          "${_adFormData["other_bytearrays"]},$imageBase64";
-                    }
-                    imageFileList?.add(resizedImageAsBytes);
-                    imageNameList.add(image.path);
+                    setState(() {
+                      if (!_adFormData.containsKey("header_bytearray")) {
+                        _adFormData["header_bytearray"] = imageBase64;
+                      } else if (!_adFormData.containsKey("other_bytearrays")) {
+                        _adFormData["other_bytearrays"] = imageBase64;
+                      } else {
+                        _adFormData["other_bytearrays"] =
+                            "${_adFormData["other_bytearrays"]},$imageBase64";
+                      }
+                      imageFileList?.add(resizedImageAsBytes);
+                      imageNameList.add(image.path);
+                    });
                   }
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
