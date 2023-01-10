@@ -44,13 +44,6 @@ class BunkieSideBarNavigation extends StatelessWidget {
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
-                    text: "Messages",
-                    icon: Icons.email,
-                    onClicked: () => _navigateTo(context, 3, token, userID),
-                  ),
-                  const Divider(color: BunkieColors.light),
-                  SizedBox(height: screenHeight * 0.025),
-                  _buildMenuItem(
                     text: "Settings",
                     icon: Icons.settings,
                     onClicked: () => _navigateTo(context, 2, token, userID),
