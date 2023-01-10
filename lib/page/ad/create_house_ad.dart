@@ -321,7 +321,7 @@ class _CreateHouseAdPageState extends State<CreateHouseAdPage> {
                     Uint8List imageAsBytes = tempImg.readAsBytesSync();
                     final imageAsPackage = ImgPackage.decodeImage(imageAsBytes);
                     final resizedImage =
-                        ImgPackage.copyResize(imageAsPackage!, width: 50);
+                        ImgPackage.copyResize(imageAsPackage!, width: 150);
                     Uint8List resizedImageAsBytes =
                         Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);

@@ -46,14 +46,14 @@ class BunkieSideBarNavigation extends StatelessWidget {
                   _buildMenuItem(
                     text: "Messages",
                     icon: Icons.email,
-                    onClicked: () => _navigateTo(context, 2, token, userID),
+                    onClicked: () => _navigateTo(context, 3, token, userID),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
                   _buildMenuItem(
                     text: "Settings",
                     icon: Icons.settings,
-                    onClicked: () => _navigateTo(context, 3, token, userID),
+                    onClicked: () => _navigateTo(context, 2, token, userID),
                   ),
                   const Divider(color: BunkieColors.light),
                   SizedBox(height: screenHeight * 0.025),
@@ -103,6 +103,9 @@ class BunkieSideBarNavigation extends StatelessWidget {
       case 1:
         BunkieUtil.navigateToProfilePage(
             context, token, userID, <String, dynamic>{}, true);
+        break;
+      case 2:
+        BunkieUtil.navigateToSettingsPage(context, token, userID);
         break;
       case 4:
         Navigator.of(context).pushAndRemoveUntil(

@@ -2,11 +2,18 @@ import 'dart:convert';
 
 import 'package:app/api/util.dart';
 import 'package:app/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class BunkieDetailedAdWidgets {
   static Center getHouseAdDetails(BuildContext context, String token,
       String userID, Map<String, dynamic> adDetail) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -16,7 +23,8 @@ class BunkieDetailedAdWidgets {
           const SizedBox(
             height: 25,
           ),
-          _getHeaderPhoto(),
+          _getHeaderPhoto(screenWidth, screenHeight, context,
+              adDetail["header_bytearray"], adDetail["other_bytearrays"]),
           const SizedBox(
             height: 25,
           ),
@@ -91,8 +99,53 @@ class BunkieDetailedAdWidgets {
     );
   }
 
-  static Container _getHeaderPhoto() {
-    return Container();
+  static Container _getHeaderPhoto(double screenWidth, double screenHeight,
+      BuildContext context, String? header_img, String? other_imgs) {
+    final images = [];
+    String header = header_img ?? "null";
+    String others = other_imgs ?? "null";
+
+    if (header_img != "null") {
+      Uint8List bytes = Base64Decoder().convert(header);
+      images.add(bytes);
+    }
+    if (other_imgs != "null") {
+      final splitted = others.split(',');
+      for (var each in splitted) {
+        Uint8List converted_img = Base64Decoder().convert(each);
+        images.add(converted_img);
+      }
+    }
+    if (header == "null") {
+      return Container();
+    } else if (others == "null") {
+      return Container(
+        width: screenWidth * 0.5,
+        height: screenHeight * 0.2,
+        child: Image.memory(
+          images[0],
+          fit: BoxFit.fill,
+        ),
+      );
+    } else {
+      // ignore: sized_box_for_whitespace
+      return Container(
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.4,
+        child: PhotoViewGallery.builder(
+          scrollDirection: Axis.horizontal,
+          scrollPhysics: const BouncingScrollPhysics(),
+          itemCount: images.length,
+          builder: (context, index) {
+            return PhotoViewGalleryPageOptions(
+                imageProvider: MemoryImage(images[index]),
+                minScale: PhotoViewComputedScale.contained,
+                maxScale: PhotoViewComputedScale.contained * 4);
+          },
+          backgroundDecoration: BoxDecoration(color: BunkieColors.light),
+        ),
+      );
+    }
   }
 
   static Container _getVisitButton(BuildContext context, String token,
@@ -104,8 +157,9 @@ class BunkieDetailedAdWidgets {
         padding: const EdgeInsets.all(5),
         child: ElevatedButton(
             onPressed: () => {
-                BunkieUtil.navigateToProfilePage(context, token, userID, displayProfileForm, false)
-            },
+                  BunkieUtil.navigateToProfilePage(
+                      context, token, userID, displayProfileForm, false)
+                },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(BunkieColors.bright),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(

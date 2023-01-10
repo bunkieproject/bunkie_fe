@@ -80,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         screenWidth,
                                         screenHeight),
                                   ),
-                                  imageFileList!.isNotEmpty
+                                  imageFileList!.isEmpty
                                       ? const Text("I have picked an image!")
                                       : const Text("No image chosen."),
                                   descriptionFieldContainer(
@@ -318,15 +318,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Uint8List resizedImageAsBytes =
                         Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);
+                    setState(() {
+                      imageFileList!.clear();
+                      imageNameList.clear();
 
-                    imageFileList!.clear();
-                    imageNameList.clear();
+                      _profileData["profile_info"]["profile_picture"] =
+                          imageBase64;
 
-                    _profileData["profile_info"]["profile_picture"] =
-                        imageBase64;
-
-                    imageFileList?.add(resizedImageAsBytes);
-                    imageNameList.add(image.path);
+                      imageFileList?.add(resizedImageAsBytes);
+                      imageNameList.add(image.path);
+                    });
                   }
                 } on PlatformException catch (e) {
                   print('Failed to pick an image: $e');
