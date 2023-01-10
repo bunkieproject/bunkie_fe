@@ -90,13 +90,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             return const Text(
                                 "Error during getting profile info, please try again.");
                           } else if (snapshot.data!.isNotEmpty) {
-                            String username ;
+                            String username;
                             if (widget.ownProfile) {
                               username = _validator(snapshot
                                   .data?['user_account_info']['username']);
                             } else {
-                              username = _validator(snapshot
-                                  .data?['username']);
+                              username = _validator(snapshot.data?['username']);
                             }
                             String fullName = _validator(
                                 snapshot.data?['user_profile_info']['name']);
