@@ -43,7 +43,7 @@ class BunkieSearchPageWidgets {
     _prefFormData.clear();
     _prefFormData['token'] = token;
     _prefFormData['user_id'] = userID;
-    _prefFormData['how_many_docs'] = 10;
+    _prefFormData['how_many_docs'] = 5;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -376,7 +376,7 @@ class BunkieSearchPageWidgets {
 
   static String? _lowerPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['lower_price'] = 0;
+      _prefFormData['lower_price'] = null;
     } else {
       _prefFormData['lower_price'] = int.parse(value);
     }
@@ -385,7 +385,7 @@ class BunkieSearchPageWidgets {
 
   static String? _upperPriceFormValidator(String? value) {
     if (value!.isEmpty) {
-      _prefFormData['upper_price'] = 999999999;
+      _prefFormData['upper_price'] = null;
     } else {
       _prefFormData['upper_price'] = int.parse(value);
     }

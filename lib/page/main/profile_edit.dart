@@ -162,7 +162,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     child: BunkieFormWidgets.getSubmitButton(
                                       () {
                                         if (_createAdFormKey.currentState!
-                                            .validate()) {
+                                            .validate()) {    
                                           BunkieProfileAPI.editProfileAction(
                                               context,
                                               widget.token,
@@ -311,11 +311,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Uint8List imageAsBytes = tempImg.readAsBytesSync();
                     final imageAsPackage = ImgPackage.decodeImage(imageAsBytes);
                     final resizedImage =
-                        ImgPackage.copyResize(imageAsPackage!, width: 150);
+                        ImgPackage.copyResize(imageAsPackage!, width: 100);
                     Uint8List resizedImageAsBytes =
                         Uint8List.fromList(ImgPackage.encodePng(resizedImage));
                     String imageBase64 = base64.encode(resizedImageAsBytes);
-
                     imageFileList!.clear();
                     imageNameList.clear();
 

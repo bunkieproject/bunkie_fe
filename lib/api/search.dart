@@ -6,7 +6,7 @@ class BunkieSearchAPI {
   static Future<dynamic> searchHouse(Map<String, dynamic> formData) async {
     try {
       http.Response response;
-      if (!formData.containsKey("lower_price")) {
+      if (BunkieSearchAPI.isDefault(formData)) {
         response = await http.post(
           Uri.parse(BunkieAddress.getRoute("ads/search_room_ad_default")),
           headers: <String, String>{
@@ -40,8 +40,8 @@ class BunkieSearchAPI {
   static Future<dynamic> searchBunkie(Map<String, dynamic> formData) async {
     try {
       http.Response response;
-      if (!formData.containsKey("lower_price")) {
-       response = await http.post(
+      if (BunkieSearchAPI.isDefault(formData)) {
+        response = await http.post(
           Uri.parse(BunkieAddress.getRoute("ads/search_bunkie_default")),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -70,5 +70,15 @@ class BunkieSearchAPI {
     }
 
     return Iterable.generate(0);
+  }
+
+  static bool isDefault(Map<String, dynamic> formData) {
+    int count = 0;
+    for (dynamic each in formData.values) {
+      if (each != null) {
+        count++;
+      }
+    }
+    return count == 3;
   }
 }
